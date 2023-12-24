@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <div className="dark:bg-none p-14 lg:p-16 lg:pt-36">
+    <div className="dark:bg-none p-10 lg:p-16 lg:pt-36">
       <div className="grid grid-cols-1 gap-6 place-content-center md:place-items-center items-center ">
         <div className="flex flex-col gap-2 md:text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-700">
           <div className="font-extrabold">

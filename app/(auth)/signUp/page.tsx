@@ -8,7 +8,7 @@ const SignUp = () => {
       
   return (
     <div className='flex flex-col gap-3 items-center h-screen lg:p-16 p-10'>
-            <div className='font-bold text-3xl mb-4'>Sign Up for <span className='text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold'>InterviewMate</span></div>
+            <div className='font-bold text-3xl mb-4 text-center'>Sign Up for <span className='text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold'>InterviewMate</span></div>
             <div className='flex gap-6 justify-center items-center'>
                 <GoogleAuth />
                 <GithubAuth />
