@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Script src="https://kit.fontawesome.com/e9aeed2e8b.js"></Script>
-      <body className={inter.className}>
+      <body className={`${inter.className}`}>
         <SupbaseProvider>
           <ThemeProvider
             attribute="class"
