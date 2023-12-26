@@ -10,15 +10,15 @@ const Hero = () => {
   return (
     <div className="dark:bg-none p-10 lg:p-16 lg:pt-36">
       <div className="grid grid-cols-1 gap-6 place-content-center md:place-items-center items-center ">
-        <div className="flex flex-col gap-2 md:text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-700">
-          <div className="font-extrabold wrapper">
+        <div className="flex flex-col gap-2 md:text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-700 justify-center items-center">
+          <div className="font-extrabold">
             <span className="text-transparent top lg:text-5xl text-4xl bg-clip-text bg-gradient-to-br from-purple-700 to-pink-700">
               Interview Mate
             </span>
             ⚡
             {/* <div className="bottom" aria-hidden="true">InterView Mate</div> */}
           </div>
-          <div className="dark:text-[#FFFFFF] font-bold fancy">
+          <div className="dark:text-[#FFFFFF] text-xl md:text-3xl font-bold md:w-3/4">
             Empower Your Career: AI-Driven Interviews, Tailored Guidance,
             Elevate Your Potential
           </div>

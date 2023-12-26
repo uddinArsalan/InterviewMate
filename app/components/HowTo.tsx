@@ -5,8 +5,8 @@ import img from "../../public/undraw_solution_mindset_re_57bf.svg";
 
 const HowTo = () => {
   return (
-    <div className="flex flex-col gap-12 p-8 lg:p-16  justify-center items-center w-full bg-[#060606] rounded-t-3xl">
-      <div className="md:text-5xl text-2xl text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-purple-600 text-center font-extrabold">
+    <div className="flex flex-col gap-12 p-8 lg:p-16  justify-center items-center w-full bg-[#060606] rounded-tl-3xl">
+      <div className="md:text-5xl text-2xl text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-800 text-center font-extrabold">
         Start Your Interview Journey with InterViewMate !
       </div>
       <div className="grid lg:grid-cols-2 gap-8 rounded-md p-8 place-content-center border-2 border-gray-600">
@@ -16,35 +16,35 @@ const HowTo = () => {
           className="h-full text-blue-200"
         />
         <div className="flex md:justify-center items-center">
-          <ul className="flex flex-col gap-8">
+          <ul className="flex flex-col gap-8 text-white">
             <li>
               <div className="flex gap-2 items-center">
-                <i className="fa-solid fa-square-plus cursor-pointer"></i>
-                <span className="font-semibold">Register & Log In</span>
+              <i className="fa-solid fa-diamond cursor-pointer"></i>
+                <span className="font-semibold text-lg">Register & Log In</span>
               </div>
             </li>
             <li>
               <div className="flex gap-2 items-center">
-                <i className="fa-solid fa-square-plus cursor-pointer"></i>
-                <span className="font-semibold">Choose Your Domain</span>
+              <i className="fa-solid fa-diamond cursor-pointer"></i>
+                <span className="font-semibold text-lg">Choose Your Domain</span>
               </div>
             </li>
             <li>
               <div className="flex gap-2 items-center">
-                <i className="fa-solid fa-square-plus cursor-pointer"></i>
-                <span className="font-semibold">Meet Your AI Interviewer</span>
+              <i className="fa-solid fa-diamond cursor-pointer"></i>
+                <span className="font-semibold text-lg">Meet Your AI Interviewer</span>
               </div>
             </li>
             <li>
               <div className="flex gap-2 items-center">
-                <i className="fa-solid fa-square-plus cursor-pointer"></i>
-                <span className="font-semibold">problem solving</span>
+              <i className="fa-solid fa-diamond cursor-pointer"></i>
+                <span className="font-semibold text-lg">problem solving</span>
               </div>
             </li>
             <li>
               <div className="flex gap-2 items-center">
-                <i className="fa-solid fa-square-plus cursor-pointer"></i>
-                <span className="font-semibold">Schedule Mock Interviews</span>
+              <i className="fa-solid fa-diamond cursor-pointer"></i>
+                <span className="font-semibold text-lg">Schedule Mock Interviews</span>
               </div>
             </li>
           </ul>
@@ -52,16 +52,16 @@ const HowTo = () => {
       </div>
       <div className="md:text-6xl text-4xl text-center mt-12 font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-purple-600">CHOOSE YOUR AVATAR</div>
       <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6">
-        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2 border-2 hover:scale-105 transition-transform">
+        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2">
           <Image
-            src="https://source.unsplash.com/300x300/?jack"
+            src="https://source.unsplash.com/300x300/?robotics"
             alt="avatar1"
             width={300}
             height={300}
           />
           <span className="text-3xl font-bold text-purple-500">MODEL 1</span>
         </div>
-        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2 border-2 hover:scale-105 transition-transform">
+        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2">
           <Image
             src="https://source.unsplash.com/300x300/?3d"
             alt="avatar2"
@@ -70,18 +70,18 @@ const HowTo = () => {
           />
           <span className="text-3xl text-purple-500 font-bold">MODEL-2</span>
         </div>
-        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2 border-2 hover:scale-105 transition-transform">
+        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2">
           <Image
-            src="https://source.unsplash.com/300x300/?manager"
+            src="https://source.unsplash.com/300x300/?human-models"
             alt="avatar3"
             width={300}
             height={300}
           />
           <span className="text-3xl text-purple-500 font-bold">MODEL-3</span>
         </div>
-        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2 border-2 hover:scale-105 transition-transform">
+        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2">
           <Image
-            src="https://source.unsplash.com/300x300/?3d"
+            src="https://source.unsplash.com/300x300/?people"
             alt="avatar4"
             width={300}
             height={300}
