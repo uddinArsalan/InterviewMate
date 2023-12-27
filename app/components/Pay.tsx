@@ -7,36 +7,36 @@ const Pay = () => {
       <div className="text-gray-400 text-lg">
         Choose your plan and get instant access.
       </div>
-      <div className="grid lg:grid-cols-3 mt-8 gap-4">
+      <div className="grid lg:grid-cols-3 mt-8 gap-4 text-white">
         <div className="flex flex-col gap-6 justify-center items-center rounded-md bg-[#1a1717] p-8">
           <div className="text-2xl">Flex</div>
           <div className="text-5xl">$99</div>
           <div className="text-gray-600 text-sm">Per quarter</div>
           <hr className=" bg-gray-100 w-full" />
           <div className="flex flex-col gap-4 mt-6 font-light text-sm">
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Access to 100+ interview questions</span>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>AI-powered tailored interviews</span>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Real-time feedback and improvement tips</span>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Basic interview skill enhancement</span>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Limited access to industry-specific questions</span>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Email support</span>
             </div>
           </div>
           <button className="border-2 border-white p-4 w-full rounded-lg">Choose quaterly plan</button>
@@ -48,29 +48,29 @@ const Pay = () => {
           <div className="text-gray-100 text-sm">Per Year</div>
           <hr className=" bg-gray-100 w-full" />
           <div className="flex flex-col gap-4 mt-6 font-light text-sm">
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Access to 300+ interview questions</span>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Enhanced skill improvement modules</span>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Domain-specific interview packs (Tech, Business, Medical, etc.)</span>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Priority support</span>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Customizable interview simulations</span>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Access all previous contents</span>
+              <span>Exclusive articles and resources</span>
             </div>
           </div>
           <button className="text-white bg-black p-4 w-full rounded-lg">Choose quaterly plan</button>
@@ -81,10 +81,10 @@ const Pay = () => {
           <div className="text-5xl">$999</div>
           <div className="text-gray-500 text-sm">One-time payment</div>
           <hr className=" bg-gray-100 w-full" />
-          <div className="flex flex-col gap-4 mt-6 font-light text-sm mb-12">
+          <div className="flex flex-col gap-4 mt-6 font-light text-sm">
             <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Everything in Pro, plus:</span>
+              <span>Everything in Pro,plus :</span>
             </div>
             <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
@@ -92,11 +92,19 @@ const Pay = () => {
             </div>
             <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Special badge in the community</span>
+              <span>Advanced AI analysis and detailed feedback</span>
             </div>
             <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>1 Month of free mentoring (3 sessions)</span>
+              <span>Early access to new features</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <i className="fa-solid fa-plus"></i>
+              <span>Premium customer support</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <i className="fa-solid fa-plus"></i>
+              <span>Mock interviews with professionals in your field</span>
             </div>
           </div>
           <button className="border-2 border-white p-3 w-full rounded-lg">Choose quaterly plan</button>
