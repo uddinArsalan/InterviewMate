@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import { ThemeProvider } from "@/components/theme-provider";
 import SupbaseProvider from "./context/SupbaseProvider";
+import { Analytics } from '@vercel/analytics/react';
 
 import "./globals.css";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Analytics />
           </ThemeProvider>
         </SupbaseProvider>
       </body>
