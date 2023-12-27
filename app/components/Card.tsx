@@ -6,7 +6,7 @@ const Card = () => {
   return (
     <>
       {UsersData.map(({ id,name,description }) => (
-        <div className="border-2 rounded-md flex flex-col gap-4 p-4 hover:shadow-md h-auto hover:shadow-purple-500 cursor-pointer" key={id}>
+        <div className="border-2 border-[#CCCCCC] rounded-md flex flex-col gap-4 p-4 hover:shadow-md h-auto hover:shadow-gray-800 dark:hover:shadow-purple-600 cursor-pointer" key={id}>
           <div className="text-sm font-bold">
            {description}
           </div>

@@ -5,11 +5,11 @@ export const CarouselData = [
     },
     {
         id : 2,
-        domain : "Finance and Accounting"
+        domain : "Finance"
     },
     {
         id : 3,
-        domain : "Machine Learning"
+        domain : "Artifical Intelligence"
     },
     {
         id : 4,
@@ -29,6 +29,6 @@ export const CarouselData = [
     },
     {
         id : 8,
-        domain : "DevOps"
+        domain : "Web3"
     },
 ]

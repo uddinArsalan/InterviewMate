@@ -21,7 +21,7 @@ const CarouselCard = () => {
           <CarouselItem key={id} className='basis-full md:basis-1/2'>
           <div className="flex flex-col gap-2 items-center cursor-pointer">
             <Image
-              src={`https://source.unsplash.com/600x300/?${domain.toLowerCase()}`}
+              src={`https://source.unsplash.com/600x300/?${domain}`}
               alt="avatar1"
               width={600}
               height={300}

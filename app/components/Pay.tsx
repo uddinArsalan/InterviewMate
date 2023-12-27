@@ -2,8 +2,8 @@ import React from "react";
 
 const Pay = () => {
   return (
-    <div className="flex flex-col gap-4 justify-center items-center p-12 ">
-      <div className="text-4xl">Start your journey today</div>
+    <div className="flex flex-col gap-4 dark:bg-[#0A0A0A] bg-[#F9F9F9] justify-center items-center p-12 ">
+      <div className="text-4xl font-semibold">Start your journey today</div>
       <div className="text-gray-400 text-lg">
         Choose your plan and get instant access.
       </div>

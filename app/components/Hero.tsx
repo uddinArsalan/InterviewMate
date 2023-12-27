@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 // import "../../styles/styles.css"
 // dark:text-gray-200
 // background-image: linear-gradient(to top, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
@@ -8,11 +9,11 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <div className="dark:bg-none p-10 lg:p-16 lg:pt-36">
+    <div className="p-10 lg:p-16 lg:pt-36">
       <div className="grid grid-cols-1 gap-6 place-content-center md:place-items-center items-center ">
         <div className="flex flex-col gap-2 md:text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-700 justify-center items-center">
           <div className="font-extrabold">
-            <span className="text-transparent top lg:text-5xl text-4xl bg-clip-text bg-gradient-to-br from-purple-700 to-pink-700">
+            <span className="text-transparent top lg:text-6xl text-5xl bg-clip-text bg-gradient-to-br from-purple-700 to-pink-700">
               Interview Mate
             </span>
             ⚡
@@ -24,10 +25,10 @@ const Hero = () => {
           </div>
         </div>
         <Link href="/signUp">
-          <button className="from-purple-700 to-purple-950 bg-gradient-to-r transition-all hover:bg-purple-700 w-36 font-semibold text-white p-3 gap-3 flex justify-center items-center">
+          <Button size={"lg"} className="from-purple-700 to-purple-950 bg-gradient-to-r font-semibold text-white gap-3 p-3">
             <span>Get Started </span>
             <i className="fa-solid fa-arrow-up-right-from-square"></i>
-          </button>
+          </Button>
         </Link>
       </div>
 
