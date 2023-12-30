@@ -16,7 +16,7 @@ const HowTo = () => {
           alt="interview-illustration"
           className="h-full text-blue-200"
         />
-        <div className="flex md:justify-center items-center dark:border-2 bg-green-200 dark:bg-blue-500 rounded-md hover:scale-105">
+        <div className="flex justify-center items-center dark:border-2 bg-green-200 dark:bg-blue-500 rounded-md hover:scale-105 md:p-0 p-6">
           <ul className="flex flex-col gap-8 dark:text-white">
             <li>
               <div className="flex gap-2 items-center">

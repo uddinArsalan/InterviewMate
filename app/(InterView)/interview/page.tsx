@@ -3,6 +3,7 @@ import React from "react";
 // import { cookies } from 'next/headers'
 import Navbar from "@/app/components/Navbar";
 import SolutionTabs from "./SolutionTabs";
+import Image from "next/image"
 
 const page = async () => {
   // const cookieStore = cookies()
@@ -29,7 +30,8 @@ const page = async () => {
       <Navbar />
       <div className="dark:bg-[#000000] flex flex-col gap-8 p-4 md:p-6">
         {/* <div className='bg-blue-900'></div> */}
-        <canvas className="w-full dark:bg-white bg-black border-2 h-full lg:h-3/4" ></canvas>
+        {/* <canvas className="w-full dark:bg-white bg-black border-2 h-full lg:h-3/4" ></canvas> */}
+        <Image src="https://source.unsplash.com/random/?Interview/" className="md:object-cover object-contain" alt="interview-section" style={{width: "100%",height: "auto"}} sizes="100vw" width={500} height={300}></Image>
         <div className="grid lg:grid-cols-3 gap-2">
           {/* <div></div> */}
           <div className="md:text-4xl text-3xl lg:text-5xl font-bold bg-clip-text bg-gradient-to-br dark:text-transparent from-green-400 font-serif to-green-900 text-center lg:col-span-2 underline">
