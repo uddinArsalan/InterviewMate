@@ -7,7 +7,7 @@ interface formType {
   name : string,
   email: string;
   password: string;
-  confirmPassword : string
+  // confirmPassword : string
 }
 
 const Form = () => {
@@ -15,7 +15,7 @@ const Form = () => {
     name : "",
     email: "",
     password: "",
-    confirmPassword : ""
+    // confirmPassword : ""
   });
   const supabase = useContext(SupbaseContext);
   async function signUpNewUser(e : any) {
@@ -24,6 +24,11 @@ const Form = () => {
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
+        options : {
+          data : {
+            first_name : formData.name
+          }
+        }
       });
       console.log(data);
     }
@@ -54,14 +59,14 @@ const Form = () => {
         placeholder="Password"
         className="p-2 shadow-md border-[1px] rounded-md w-full"
       />
-      <input
+      {/* <input
         type="password"
         name="confirmPassword"
         value={formData.confirmPassword}
         onChange={(e) => setFormData((prevData) => ({...prevData,confirmPassword : e.target.value}))}
         placeholder="Confirm password"
         className="p-2 shadow-md border-[1px] rounded-md w-full"
-      />
+      /> */}
       <div className="text-xs font-light mt-2">
         By clicking Create account below, you agree to our Terms of Service and
         Privacy Policy.

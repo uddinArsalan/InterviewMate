@@ -33,9 +33,9 @@ const Navbar = () => {
           <li className="hover:underline hover:text-purple-600  cursor-pointer hover:underline-offset-8">
             Profile
           </li>
-          <li className="hover:underline hover:text-purple-600  cursor-pointer hover:underline-offset-8">
+          <Link href="/interview"><li className="hover:underline hover:text-purple-600  cursor-pointer hover:underline-offset-8">
             Interview
-          </li>
+          </li></Link>
           <li className="hover:underline hover:text-purple-600  cursor-pointer hover:underline-offset-8">
             Feedback
           </li>

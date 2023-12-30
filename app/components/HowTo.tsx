@@ -1,22 +1,22 @@
 import React from "react";
 import Image from "next/image";
-import img from "../../public/undraw_solution_mindset_re_57bf.svg";
+import img from "../../public/undraw_updated_resume_re_7r9j.svg";
 // import "../../styles/styles.css"
 import CarouselCard from "./CarouselCard";
 
 const HowTo = () => {
   return (
     <div className="flex flex-col gap-12 p-8 lg:p-16  justify-center items-center w-full dark:bg-[#060606] rounded-tl-3xl">
-      <div className="md:text-5xl text-2xl text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-600 dark:from-red-600 dark:to-pink-600 text-center font-extrabold">
+      <div className="md:text-6xl text-3xl text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-400 dark:from-white dark:to-gray-400 text-center font-extrabold">
         Start Your Interview Journey with InterViewMate !
       </div>
-      <div className="grid lg:grid-cols-2 gap-8 rounded-md p-8 place-content-center border-2 border-gray-600">
+      <div className="grid lg:grid-cols-2 gap-8 rounded-md p-8 place-content-center border-2 border-gray-600 bg-gray-900 dark:bg-inherit">
         <Image
           src={img}
           alt="interview-illustration"
           className="h-full text-blue-200"
         />
-        <div className="flex md:justify-center items-center">
+        <div className="flex md:justify-center items-center dark:border-2 bg-green-200 dark:bg-blue-500 rounded-md hover:scale-105">
           <ul className="flex flex-col gap-8 dark:text-white">
             <li>
               <div className="flex gap-2 items-center">
@@ -36,12 +36,12 @@ const HowTo = () => {
                 <span className="font-semibold text-lg">Meet Your AI Interviewer</span>
               </div>
             </li>
-            <li>
+            {/* <li>
               <div className="flex gap-2 items-center">
               <i className="fa-solid fa-diamond cursor-pointer"></i>
                 <span className="font-semibold text-lg">problem solving</span>
               </div>
-            </li>
+            </li> */}
             <li>
               <div className="flex gap-2 items-center">
               <i className="fa-solid fa-diamond cursor-pointer"></i>

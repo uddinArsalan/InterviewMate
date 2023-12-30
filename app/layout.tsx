@@ -13,12 +13,13 @@ export const metadata: Metadata = {
   title: "InterviewMate⚡",
   description: "An AI Interview website",
 };
-
+// || event === 'USER_DELETED'
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) {  
+  
   return (
     <html lang="en">
       <Script src="https://kit.fontawesome.com/e9aeed2e8b.js"></Script>
