@@ -13,7 +13,6 @@ export const metadata: Metadata = {
   title: "InterviewMate⚡",
   description: "An AI Interview website",
 };
-// || event === 'USER_DELETED'
 export default function RootLayout({
   children,
 }: {
