@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 const SolutionTabs = () => {
   return (
     <>
-    <Tabs defaultValue="description" className="w-full">
+    <Tabs defaultValue="description" className="w-full m-0">
       <TabsList className="w-full">
         <TabsTrigger value="description" className="w-1/2">
           Description
@@ -23,7 +23,7 @@ const SolutionTabs = () => {
       </TabsContent>
       <TabsContent value="code"><Code /></TabsContent>
     </Tabs>
-    <Button className="bg-green-700 dark:text-black font-bold text-white">Submit</Button>
+    <Button className="bg-green-700 p-6 dark:text-black font-bold text-white">Submit</Button>
     </>
   );
 };

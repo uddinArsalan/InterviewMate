@@ -2,7 +2,7 @@ import React from 'react'
 
 const Code = () => {
   return (
-    <div className='relative'>
+    <div className='relative '>
     <div className='absolute top-0 right-0'>
         <select name="" id="" className='w-42'>
             <option value="java" selected>Java</option>
