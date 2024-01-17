@@ -64,13 +64,13 @@ const page = () => {
         {/* <canvas className="w-full dark:bg-white bg-black border-2 h-full lg:h-3/4" ></canvas> */}
         <div className="w-full flex justify-center items-center relative">
           <Image
-            src="https://source.unsplash.com/random/1200x600/?river/"
+            src={`https://source.unsplash.com/1200x600/?interview&n=${Date.now()}/`}
             className="md:object-cover object-contain"
             alt="interview-section"
             width={1200}
             height={300}
           ></Image>
-          {/* <Video /> */}
+          <Video />
         </div>
         <div className="grid lg:grid-cols-3 gap-2">
           {/* <div></div> */}

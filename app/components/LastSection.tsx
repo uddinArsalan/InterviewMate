@@ -7,7 +7,7 @@ const LastSection = () => {
   return (
     <>
       <div className="flex flex-col bg-[#F5F5F5] dark:bg-[#151414] justify-center items-center p-16 gap-8">
-        <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-pink-800 to-purple-700">
+        <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-pink-800 to-purple-900">
           Join Interview-Mate Now
         </div>
         <div className="">A quick way to prepare for your next interview </div>

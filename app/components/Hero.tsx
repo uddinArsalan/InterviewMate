@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 const Hero = () => {
   return (
     <div className="p-10 lg:p-16 lg:pt-36 grid gap-8 mb-12">
-      <div className="grid grid-cols-1 gap-8 place-content-center md:place-items-center items-center lg:mb-20 md:mb-18 mb-12">
-        <div className="flex flex-col gap-2 md:text-center text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-700 justify-center items-center">
+      <div className="grid grid-cols-1 gap-8 place-content-center place-items-center items-center lg:mb-20 md:mb-18 mb-12">
+        <div className="flex flex-col gap-2 text-center w-full text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-700 justify-center items-center">
           <div className="font-extrabold">
             <span className="text-transparent top lg:text-6xl text-5xl bg-clip-text bg-gradient-to-br from-purple-700 to-pink-700">
               Interview Mate
@@ -33,14 +33,16 @@ const Hero = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 justify-center gap-12">
+        <div>
         <Image
-          src="https://source.unsplash.com/random/1000?coding"
+          src={`https://source.unsplash.com/1000x1200/?job interview&n=${Date.now()}`}
           width={1000}
-          height={1000}
+          height={1200}
           // fill={true}
           className="rounded-md"
           alt="Hero Image"
         />
+        </div>
 
         <div className="flex flex-col gap-6">
           <div className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-purple-700 to-pink-700 text-4xl sm:text-5xl">
