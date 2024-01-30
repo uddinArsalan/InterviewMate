@@ -13,11 +13,15 @@ export async function POST(req : NextRequest) {
     const cohere = new CohereClient({
       token: API_KEY,
     });
-
+    
+    const {domain,user} = await req.json()
+    // console.log(user.user_metadata.first_name)
+    if(!user){
+      throw new Error("User Not found ,please SignUp or login first")
+    }
     try {
-      const {domain} = await req.json()
       const generate = await cohere.generate({
-        prompt: `Generate interview questions for a ${domain} position. Start with a greeting and introductory section, then move on to technical questions related to the ${domain}. Ensure that the questions cover various aspects, such as the candidate's experience, problem-solving skills, and knowledge of relevant technologies. Focus solely on the questions, and exclude any additional information or introductory paragraphs. Use placeholders like Arsalan where needed. The output should be a structured set of questions resembling a real interview experience.
+        prompt: `Generate interview questions for a ${domain} position. Start with a greeting and introductory section, then move on to technical questions related to the ${domain}. Ensure that the questions cover various aspects, such as the candidate's experience, problem-solving skills, and knowledge of relevant technologies. Focus solely on the questions, and exclude any additional information or introductory paragraphs. Use placeholders like ${user.user_metadata.first_name}  where needed. The output should be a structured set of questions resembling a real interview experience.
         `,
       });
 

@@ -5,7 +5,8 @@ import React,{useRef} from "react";
 import Navbar from "@/app/components/Navbar";
 import SolutionTabs from "./SolutionTabs";
 import Image from "next/image";
-import Video from "./Video";
+import Video from "./(audio)/Video";
+// import Model from "./(Model)/Model";
 import DomainDialog from "./(dialog)/DomainDialog";
 
 const page = () => {
@@ -59,10 +60,11 @@ const page = () => {
     <>
       <Navbar />
       {/* <Popup /> */}
+      {/* <Video />  */}
       <div className="dark:bg-[#000000] flex flex-col gap-8 p-4 md:p-6">
         {/* <div className='bg-blue-900'></div> */}
         {/* <canvas className="w-full dark:bg-white bg-black border-2 h-full lg:h-3/4" ></canvas> */}
-        <div className="w-full flex justify-center items-center relative">
+        <div className="w-full flex flex-col mb-24 justify-center items-center relative">
           <Image
             src={`https://source.unsplash.com/1200x600/?interview&n=${Date.now()}/`}
             className="md:object-cover object-contain"
@@ -71,6 +73,7 @@ const page = () => {
             height={300}
           ></Image>
           <Video />
+          {/* < Model /> */}
         </div>
         <div className="grid lg:grid-cols-3 gap-2">
           {/* <div></div> */}

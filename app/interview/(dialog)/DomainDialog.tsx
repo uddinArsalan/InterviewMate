@@ -1,5 +1,6 @@
 "use client";
 import React, { useState,useContext } from "react";
+// import { SupbaseContext } from "@/app/context/SupbaseProvider";
 import {
   Dialog,
   DialogClose,
@@ -13,6 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { SupbaseContext } from "@/app/context/SupbaseProvider";
 import Check from "./Checkbox";
+import { UserResponse,User } from "@supabase/supabase-js";
+
 // import { DialogClose } from "@radix-ui/react-dialog";
 
 const DomainDialog = () => {
@@ -22,8 +25,17 @@ const DomainDialog = () => {
 //     return new Date().getTime();
 // }
   const [value, setValue] = useState<string>("");
-  const [domainID,setDomainId] = useState()
+  const [domainID,setDomainId] = useState();
+  const [currentUser,setCurrentUser] = useState<User | null>(null);
   const supabase = useContext(SupbaseContext)
+  const getUser = async() => {
+    if(supabase != null){
+      // const data = await supabase.auth.getSession()
+      const data = await supabase.auth.getUser() 
+      setCurrentUser(data?.data.user)
+      console.log(data?.data.user)
+    }
+  }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Domain selected " + value);
@@ -33,32 +45,32 @@ const DomainDialog = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ domain: value }),
+        body: JSON.stringify({ domain: value ,user:currentUser}),
       });
       if (!res.ok) {
         throw new Error("API request failed");
       }
-      const questions = await res.json();
+      // const questions = await res.json();
 //       INSERT INTO questions (domain_id, question_text)
 // VALUES
 //     ((SELECT domain_id FROM domains WHERE domain_name = 'Domain1'), 'What is your question 1?'),
-      if(supabase != null){
-        const {data} = await supabase
-          .from("domains")
-          .select("domain_id")
-          .eq('domain', value)
-          if(data){
-            const {domain_id} = data[0]
-            setDomainId(domain_id)
-          }
-          console.log(domainID)
-        const {error} = await supabase
-          .from("questions")
-          .insert({domain_id: domainID, question_text: questions})
-          // .select();
+      // if(supabase != null){
+      //   const {data} = await supabase
+      //     .from("domains")
+      //     .select("domain_id")
+      //     .eq('domain', value)
+      //     if(data){
+      //       const {domain_id} = data[0]
+      //       setDomainId(domain_id)
+      //     }
+      //     console.log(domainID)
+      //   const {error} = await supabase
+      //     .from("questions")
+      //     .insert({domain_id: domainID, question_text: questions})
+      //     // .select();
         
-          console.log(error)
-      }
+      //     console.log(error)
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -75,7 +87,7 @@ const DomainDialog = () => {
   return (
     <Dialog>
       {/* <Button type="button" className="mt-3 bg-green-200 dark:text-black text-xs font-bold" variant="outline"> */}
-      <DialogTrigger className="mt-3 bg-green-200 rounded-sm dark:text-black text-xs font-bold p-2">
+      <DialogTrigger className="mt-3 bg-green-200 rounded-sm dark:text-black text-xs font-bold p-2" onClick={getUser}>
         Select your Domain
       </DialogTrigger>
       {/* </Button> */}
