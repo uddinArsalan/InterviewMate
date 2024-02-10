@@ -36,8 +36,7 @@ const DomainDialog = () => {
       console.log(data?.data.user)
     }
   }
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const generateQuestions = async () => {
     console.log("Domain selected " + value);
     try {
       const res = await fetch(`http://localhost:3000/api/cohereai`, {
@@ -50,32 +49,46 @@ const DomainDialog = () => {
       if (!res.ok) {
         throw new Error("API request failed");
       }
-      // const questions = await res.json();
-//       INSERT INTO questions (domain_id, question_text)
-// VALUES
-//     ((SELECT domain_id FROM domains WHERE domain_name = 'Domain1'), 'What is your question 1?'),
-      // if(supabase != null){
-      //   const {data} = await supabase
-      //     .from("domains")
-      //     .select("domain_id")
-      //     .eq('domain', value)
-      //     if(data){
-      //       const {domain_id} = data[0]
-      //       setDomainId(domain_id)
-      //     }
-      //     console.log(domainID)
-      //   const {error} = await supabase
-      //     .from("questions")
-      //     .insert({domain_id: domainID, question_text: questions})
-      //     // .select();
-        
-      //     console.log(error)
-      // }
-    } catch (error) {
-      console.error(error);
+    const questions = await res.json();
+
+    return questions
+
+    } catch(error){
+      console.log("Error fetching questions",error)
     }
-    // alert("Domain selected " + value);
-  };
+  }
+
+  const insertQuestions = async (questionText : string) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/insert-questions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ domainValue: value ,questions_text:questionText}),
+      });
+      if (!res.ok) {
+        throw new Error("API request failed");
+      }
+    const response = await res.json();
+
+    console.log(response)
+
+    } catch(error){
+      console.log("Error inserting questions",error)
+    }
+  }
+
+  const handleQuestion = async(e: React.FormEvent) => {
+    e.preventDefault()
+    try{
+      const getQuestions = await generateQuestions()
+      const finalResponse = await insertQuestions(getQuestions)
+      console.log(finalResponse)
+    } catch(error){
+      console.log('Error executing requests', error)
+    }
+  }
 
   // useEffect(() => {
   //   fetch("http://localhost:3000/api/cohereai", { method: "POST" })
@@ -99,7 +112,7 @@ const DomainDialog = () => {
           <Check value={value} setValue={setValue} />
         </DialogDescription>
         <DialogFooter className="sm:justify-start">
-          <DialogClose onClick={(e) => handleSubmit(e)}>
+          <DialogClose onClick={handleQuestion}>
             <Button type="button" variant="secondary">
               Submit
             </Button>

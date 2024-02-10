@@ -5,7 +5,7 @@ import React,{useRef} from "react";
 import Navbar from "@/app/components/Navbar";
 import SolutionTabs from "./SolutionTabs";
 import Image from "next/image";
-import Video from "./(audio)/Video";
+// import Video from "./(video)/Video";
 // import Model from "./(Model)/Model";
 import DomainDialog from "./(dialog)/DomainDialog";
 
@@ -72,7 +72,7 @@ const page = () => {
             width={1200}
             height={300}
           ></Image>
-          <Video />
+          {/* <Video /> */}
           {/* < Model /> */}
         </div>
         <div className="grid lg:grid-cols-3 gap-2">

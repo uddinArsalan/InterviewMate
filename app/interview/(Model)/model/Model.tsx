@@ -9,10 +9,14 @@ const Model = () => {
 
   useEffect(() => {
     const scene = new THREE.Scene();
-    const ambientlight = new THREE.AmbientLight(0x404040); // soft white light
-    const light = new THREE.PointLight(0xff0000, 1, 100);
-    light.position.set(50, 50, 50);
-    scene.add(light);
+    const ambientlight = new THREE.AmbientLight(0xffffff);
+    // var whiteLight = new THREE.PointLight(0xffffff, 1);
+    // whiteLight.position.set(0, 0, 5);
+    // scene.add(whiteLight);
+    scene.background = new THREE.Color( 0xffffff );
+    // const light = new THREE.PointLight(0xff0000, 1, 100);
+    // light.position.set(50, 50, 50);
+    // scene.add(light);
     scene.add(ambientlight);
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -20,7 +24,7 @@ const Model = () => {
       0.1,
       1000
     );
-    camera.position.z = 5;
+    camera.position.z = 2;
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -28,7 +32,7 @@ const Model = () => {
 
     const loader = new GLTFLoader();
     loader.load(
-      "../model/model.glb",
+      "../model/female model.glb",
       (gltf) => {
         // Check if there are animations in the gltf object
         if (gltf.animations && gltf.animations.length > 0) {
@@ -70,7 +74,7 @@ const Model = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-    console.log("Loading time ")
+    // console.log("Loading time ");
   }, []); // Empty dependency array ensures the useEffect runs only once
 
   return (

@@ -1,6 +1,78 @@
+"use client";
 import React from "react";
 
 const Pay = () => {
+  // const generateVoice = async () => {
+  //   const res = await fetch("http://localhost:3000/api/voice")
+  //   const voiceData = await res.json();
+  //   console.log(voiceData)
+  // }
+
+  // useEffect(() => {
+
+  //   const url = 'https://api.play.ht/api/v2/tts';
+  //   const options = {
+  //     method: 'POST',
+  //     headers: {accept: 'text/event-stream', 'content-type': 'application/json'},
+  //     body: JSON.stringify({
+  //       text: 'Hello from a realistic voice.',
+  //       voice: 's3://voice-cloning-zero-shot/d9ff78ba-d016-47f6-b0ef-dd630f59414e/female-cs/manifest.json',
+  //       output_format: 'mp3',
+  //       voice_engine: 'PlayHT2.0'
+  //     })
+  //   };
+
+  //   fetch(url, options)
+  //     .then(res => res.json())
+  //     .then(json => console.log(json))
+  //     .catch(err => console.error('error:' + err));
+  // },[])
+
+  // useEffect(() => {
+  //   console.log("Hi I am here ");
+  //   fetch(
+  //     `http://api.voicerss.org/?key=${process.env.VOICE_RSS_API_KEY}&hl=en-us&src=Hello, world!`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data))
+  //     // .catch((err) => console.log(err));
+  // }, []);
+  const startVoice = () => {
+    const speech = new SpeechSynthesisUtterance();
+    speech.lang = "en";
+    console.log("Hii ")
+
+    const populateVoices = () => {
+      const voices = window.speechSynthesis.getVoices();
+      console.log("Voices:", voices);
+      speech.voice = voices[6]; // Set voice based on language
+    };
+
+    const speakText = () => {
+      // console.log("Speaking:", speech.text);
+      speechSynthesis.speak(speech);
+    };
+
+    populateVoices(); // Populate voices initially
+
+    window.speechSynthesis.onvoiceschanged = populateVoices;
+
+    speech.text = "Hello Arsalan, Happy Birthday to you ";
+    console.log("Speech object:", speech);
+    speakText();
+
+    // Add event listeners to track speaking status changes
+    speech.onstart = () => console.log("Speech started");
+    speech.onend = () => console.log("Speech ended");
+  };
+  // useEffect(() => {
+
+  //   return () => {
+  //     // Cleanup
+  //     window.speechSynthesis.onvoiceschanged = null;
+  //   };
+  // }, []);
+
   return (
     <div className="flex flex-col gap-4 dark:bg-[#0A0A0A] bg-[#F9F9F9] justify-center items-center p-12 ">
       <div className="text-4xl font-semibold">Start your journey today</div>
@@ -39,7 +111,9 @@ const Pay = () => {
               <span>Email support</span>
             </div>
           </div>
-          <button className="border-2 border-white p-4 w-full rounded-lg">Choose quaterly plan</button>
+          <button className="border-2 border-white p-4 w-full rounded-lg">
+            Choose quaterly plan
+          </button>
         </div>
 
         <div className="flex flex-col gap-6 justify-center items-center rounded-md bg-pink-600 p-8">
@@ -58,7 +132,9 @@ const Pay = () => {
             </div>
             <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
-              <span>Domain-specific interview packs (Tech, Business, Medical, etc.)</span>
+              <span>
+                Domain-specific interview packs (Tech, Business, Medical, etc.)
+              </span>
             </div>
             <div className="flex gap-2 items-center">
               <i className="fa-solid fa-plus"></i>
@@ -73,7 +149,12 @@ const Pay = () => {
               <span>Exclusive articles and resources</span>
             </div>
           </div>
-          <button className="text-white bg-black p-4 w-full rounded-lg">Choose quaterly plan</button>
+          <button
+            className="text-white bg-black p-4 w-full rounded-lg"
+            onClick={startVoice}
+          >
+            Choose quaterly plan
+          </button>
         </div>
 
         <div className="flex flex-col gap-6 justify-center items-center rounded-md bg-[#1a1717] p-8">
@@ -107,9 +188,10 @@ const Pay = () => {
               <span>Mock interviews with professionals in your field</span>
             </div>
           </div>
-          <button className="border-2 border-white p-3 w-full rounded-lg">Choose quaterly plan</button>
+          <button className="border-2 border-white p-3 w-full rounded-lg">
+            Choose quaterly plan
+          </button>
         </div>
-
       </div>
     </div>
   );
