@@ -1,15 +1,9 @@
-"use client";
-import React,{useState} from "react";
+import React from "react";
 // import { createServerClient, type CookieOptions } from '@supabase/ssr'
 // import { cookies } from 'next/headers';
 import Navbar from "@/app/components/Navbar";
 import SolutionTabs from "./components/SolutionTabs";
-import Image from "next/image";
-// import Video from "./(video)/Video";
-// import Model from "./(Model)/Model";
 import InterviewPreparationPanel from "./components/InterviewPreparationPanel";
-import DomainDialog from "./(dialog)/DomainDialog";
-import StartInterView from "./components/StartInterView";
 import ModelAndVideoDisplay from "./components/ModelAndVideoDisplay";
 
 const page = () => {
@@ -63,49 +57,10 @@ const page = () => {
   return (
     <>
       <Navbar />
-      {/* <Popup /> */}
-      {/* <Video />  */}
       <div className="dark:bg-[#000000] flex flex-col gap-8 p-4 md:p-6">
-        {/* <div className='bg-blue-900'></div> */}
-        {/* <canvas className="w-full dark:bg-white bg-black border-2 h-full lg:h-3/4" ></canvas> */}
-        {/* <div className="w-full flex flex-col justify-center items-center relative">
-          <Image
-            src={`https://source.unsplash.com/1200x600/?interview&n=${Date.now()}/`}
-            className="md:object-cover object-contain"
-            alt="interview-section"
-            width={1200}
-            height={300}
-          ></Image>
-        </div> */}
         <ModelAndVideoDisplay />
-        <div className="p-4 md:p-8 flex flex-wrap md:justify-between justify-center gap-6 items-center">
-          {/* <div></div> */}
-          {/* <div className="md:text-4xl text-3xl lg:text-5xl font-bold bg-clip-text bg-gradient-to-br dark:text-transparent from-green-400 font-serif to-green-900 lg:col-span-2 underline flex items-center">
-            Start Your AI Interview{" "}
-          </div>
-          <div className="flex flex-col gap-2 items-center justify-end">
-            <div className="text-xs dark:text-gray-700">
-              Give access to your microphone and web camera
-            </div>
-            <div className="flex gap-2 cursor-pointer text-green-700">
-              <i className="fa-solid fa-microphone"></i>
-              <i className="fa-solid fa-video"></i>
-            </div>
-            <DomainDialog />
-          </div>
-          {/* <div className="p-4 border-4"> */}
-            {/* <StartInterView onClick={() => setShowModal(prev => !prev)}/> */}
-        {/* </div>  */}
+        <div className="">
         <InterviewPreparationPanel />
-           </div> 
-        <div className="md:text-4xl text-2xl lg:text-4xl text-center text-green-800 font-extrabold mt-8 mb-0">
-          OR
-        </div>
-        <div className="flex flex-col p-2 md:p-4 lg:p-8 w-full">
-          <div className="text-3xl mb-4 md:text-4xl font-extrabold text-green-800 text-center">
-            Submit Your Solution in text format
-          </div>
-          <SolutionTabs />
         </div>
       </div>
     </>
