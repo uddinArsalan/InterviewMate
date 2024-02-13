@@ -1,16 +1,20 @@
 "use client";
-import React,{useRef} from "react";
+import React,{useState} from "react";
 // import { createServerClient, type CookieOptions } from '@supabase/ssr'
 // import { cookies } from 'next/headers';
 import Navbar from "@/app/components/Navbar";
-import SolutionTabs from "./SolutionTabs";
+import SolutionTabs from "./components/SolutionTabs";
 import Image from "next/image";
 // import Video from "./(video)/Video";
 // import Model from "./(Model)/Model";
+import InterviewPreparationPanel from "./components/InterviewPreparationPanel";
 import DomainDialog from "./(dialog)/DomainDialog";
+import StartInterView from "./components/StartInterView";
+import ModelAndVideoDisplay from "./components/ModelAndVideoDisplay";
 
 const page = () => {
-// const VideoRef = useRef<HTMLVideoElement>(null);
+// const [showModel,setShowModel] = useState(false)
+  // const VideoRef = useRef<HTMLVideoElement>(null);
   // console.log(process.env.OPENAI_API_KEY)
   // const cookieStore = cookies()
 
@@ -64,7 +68,7 @@ const page = () => {
       <div className="dark:bg-[#000000] flex flex-col gap-8 p-4 md:p-6">
         {/* <div className='bg-blue-900'></div> */}
         {/* <canvas className="w-full dark:bg-white bg-black border-2 h-full lg:h-3/4" ></canvas> */}
-        <div className="w-full flex flex-col mb-24 justify-center items-center relative">
+        {/* <div className="w-full flex flex-col justify-center items-center relative">
           <Image
             src={`https://source.unsplash.com/1200x600/?interview&n=${Date.now()}/`}
             className="md:object-cover object-contain"
@@ -72,12 +76,11 @@ const page = () => {
             width={1200}
             height={300}
           ></Image>
-          {/* <Video /> */}
-          {/* < Model /> */}
-        </div>
-        <div className="grid lg:grid-cols-3 gap-2">
+        </div> */}
+        <ModelAndVideoDisplay />
+        <div className="p-4 md:p-8 flex flex-wrap md:justify-between justify-center gap-6 items-center">
           {/* <div></div> */}
-          <div className="md:text-4xl text-3xl lg:text-5xl font-bold bg-clip-text bg-gradient-to-br dark:text-transparent from-green-400 font-serif to-green-900 text-center lg:col-span-2 underline">
+          {/* <div className="md:text-4xl text-3xl lg:text-5xl font-bold bg-clip-text bg-gradient-to-br dark:text-transparent from-green-400 font-serif to-green-900 lg:col-span-2 underline flex items-center">
             Start Your AI Interview{" "}
           </div>
           <div className="flex flex-col gap-2 items-center justify-end">
@@ -90,7 +93,11 @@ const page = () => {
             </div>
             <DomainDialog />
           </div>
-        </div>
+          {/* <div className="p-4 border-4"> */}
+            {/* <StartInterView onClick={() => setShowModal(prev => !prev)}/> */}
+        {/* </div>  */}
+        <InterviewPreparationPanel />
+           </div> 
         <div className="md:text-4xl text-2xl lg:text-4xl text-center text-green-800 font-extrabold mt-8 mb-0">
           OR
         </div>

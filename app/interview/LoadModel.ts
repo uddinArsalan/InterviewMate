@@ -1,13 +1,7 @@
-"use client";
-import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-const Model = () => {
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const mixerRef = useRef<THREE.AnimationMixer | null>(null);
-
-  useEffect(() => {
+export const loadModel = () => {
     const scene = new THREE.Scene();
     const ambientlight = new THREE.AmbientLight(0xffffff);
     // var whiteLight = new THREE.PointLight(0xffffff, 1);
@@ -18,6 +12,7 @@ const Model = () => {
     // light.position.set(50, 50, 50);
     // scene.add(light);
     scene.add(ambientlight);
+    let mixerRef : THREE.AnimationMixer;
     const camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
@@ -28,7 +23,7 @@ const Model = () => {
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    sceneRef.current?.appendChild(renderer.domElement);
+    // sceneRef.current?.appendChild(renderer.domElement);
 
     const loader = new GLTFLoader();
     loader.load(
@@ -36,8 +31,8 @@ const Model = () => {
       (gltf) => {
         // Check if there are animations in the gltf object
         if (gltf.animations && gltf.animations.length > 0) {
-          mixerRef.current = new THREE.AnimationMixer(gltf.scene);
-          const action = mixerRef.current.clipAction(gltf.animations[0]); // Assuming there is only one animation
+          mixerRef = new THREE.AnimationMixer(gltf.scene);
+          const action = mixerRef.clipAction(gltf.animations[0]); // Assuming there is only one animation
           action.play();
         }
         scene.add(gltf.scene);
@@ -54,8 +49,8 @@ const Model = () => {
     const animate = () => {
       requestAnimationFrame(animate);
       // Update the animation mixer
-      if (mixerRef.current) {
-        mixerRef.current.update(0.016); // Assuming a frame rate of 60fps
+      if (mixerRef) {
+        mixerRef.update(0.016); // Assuming a frame rate of 60fps
       }
       renderer.render(scene, camera);
     };
@@ -70,18 +65,5 @@ const Model = () => {
 
     window.addEventListener("resize", handleResize);
 
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-    // console.log("Loading time ");
-  }, []); // Empty dependency array ensures the useEffect runs only once
-
-  return (
-    <>
-      <div ref={sceneRef} />
-    </>
-  );
-};
-
-export default Model;
+    return { renderer: renderer.domElement };
+}

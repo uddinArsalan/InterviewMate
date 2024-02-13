@@ -25,7 +25,8 @@ const DomainDialog = () => {
 //     return new Date().getTime();
 // }
   const [value, setValue] = useState<string>("");
-  const [domainID,setDomainId] = useState();
+  const [open, setOpen] = useState(false);
+
   const [currentUser,setCurrentUser] = useState<User | null>(null);
   const supabase = useContext(SupbaseContext)
   const getUser = async() => {
@@ -71,6 +72,9 @@ const DomainDialog = () => {
         throw new Error("API request failed");
       }
     const response = await res.json();
+    // if(res.ok){
+    //   setOpen(false)
+    // }
 
     console.log(response)
 
@@ -84,7 +88,8 @@ const DomainDialog = () => {
     try{
       const getQuestions = await generateQuestions()
       const finalResponse = await insertQuestions(getQuestions)
-      console.log(finalResponse)
+      setOpen(false); // Close the dialog only if the request was successful
+      return finalResponse
     } catch(error){
       console.log('Error executing requests', error)
     }
@@ -98,7 +103,7 @@ const DomainDialog = () => {
   // }, [value]);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       {/* <Button type="button" className="mt-3 bg-green-200 dark:text-black text-xs font-bold" variant="outline"> */}
       <DialogTrigger className="mt-3 bg-green-200 rounded-sm dark:text-black text-xs font-bold p-2" onClick={getUser}>
         Select your Domain
@@ -113,7 +118,7 @@ const DomainDialog = () => {
         </DialogDescription>
         <DialogFooter className="sm:justify-start">
           <DialogClose onClick={handleQuestion}>
-            <Button type="button" variant="secondary">
+            <Button type="button" variant="secondary" >
               Submit
             </Button>
           </DialogClose>
