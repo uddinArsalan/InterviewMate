@@ -1,14 +1,14 @@
 "use client";
-import React, { SetStateAction } from "react";
+import React,{useContext} from "react";
 import { Button } from "@/components/ui/button";
+import { ModelContext } from "@/app/context/ModelContextProvider";
 
-interface propsTypes {
-  setShowModel: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const StartInterView = ({
-  setShowModel ,
-} : propsTypes) => {
+const StartInterView = () => {
+  const context = useContext(ModelContext)
+  if (!context) {
+    throw new Error("ModelContext not found!");
+  }
+  const {setShowModel} = context
   return (
     <Button
       className="p-6"

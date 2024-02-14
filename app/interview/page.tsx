@@ -2,12 +2,12 @@ import React from "react";
 // import { createServerClient, type CookieOptions } from '@supabase/ssr'
 // import { cookies } from 'next/headers';
 import Navbar from "@/app/components/Navbar";
-import SolutionTabs from "./components/SolutionTabs";
+import ModelContextProvider from "../context/ModelContextProvider";
 import InterviewPreparationPanel from "./components/InterviewPreparationPanel";
 import ModelAndVideoDisplay from "./components/ModelAndVideoDisplay";
 
 const page = () => {
-// const [showModel,setShowModel] = useState(false)
+  // const [showModel,setShowModel] = useState(false)
   // const VideoRef = useRef<HTMLVideoElement>(null);
   // console.log(process.env.OPENAI_API_KEY)
   // const cookieStore = cookies()
@@ -57,12 +57,14 @@ const page = () => {
   return (
     <>
       <Navbar />
-      <div className="dark:bg-[#000000] flex flex-col gap-8 p-4 md:p-6">
-        <ModelAndVideoDisplay />
-        <div className="">
-        <InterviewPreparationPanel />
+      <ModelContextProvider>
+        <div className="dark:bg-[#000000] flex flex-col gap-8 p-4 md:p-6">
+          <ModelAndVideoDisplay />
+          <div>
+            <InterviewPreparationPanel />
+          </div>
         </div>
-      </div>
+      </ModelContextProvider>
     </>
   );
 };

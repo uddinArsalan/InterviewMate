@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 // import * as THREE from "three";
-import { loadModel } from "../../LoadModel";;
+import { loadModel } from "../LoadModel";
 // import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const Model = () => {
