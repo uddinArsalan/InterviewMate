@@ -1,67 +1,85 @@
 "use client";
 import React, { useEffect, useRef , useState} from "react";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
+import { VideoCameraIcon, MicrophoneIcon,NoSymbolIcon,VideoCameraSlashIcon } from '@heroicons/react/24/solid';
 
 const Video = () => {
-
+  const [isAudioOn, setIsAudioOn] = useState(true);
+  const [isVideoOn, setIsVideoOn] = useState(true);
+  const [stream, setStream] = useState<MediaStream | null>(null);
   const VideoRef = useRef<HTMLVideoElement>(null);
-  const AudioRef = useRef<HTMLAudioElement>(null);
-  const [ mediaRecorders,setMediaRecorders] = useState<MediaRecorder>()
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   useEffect(() => {
-    let chunks: any[] = [];
-    const video = VideoRef.current;
-    const audio = AudioRef.current;
-    if (video && audio) {
-      navigator.mediaDevices
-        .getUserMedia({ audio: true ,video: { width: 400, height: 200 }})
-        .then((mediaStream) => {
-          video.srcObject = mediaStream;
-          video.muted = true;
-          video.onloadedmetadata = () => {
-            video.play();
-          };
-          const mediaRecorder = new MediaRecorder(mediaStream);
-          setMediaRecorders(mediaRecorder)
-          // mediaRecorder.start();
-          console.log(mediaRecorder.state);
-          // console.log("recorder started");
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: true })
+      .then((mediaStream) => {
+        if (VideoRef.current) {
+          VideoRef.current.srcObject = mediaStream;
+        }
+        setStream(mediaStream);
+        const audioStream = new MediaStream(mediaStream.getAudioTracks());
+        
+        // Set the audio stream to the audio element
+        if (audioRef.current) {
+          audioRef.current.srcObject = audioStream;
+          audioRef.current.play().catch(e => console.error("Error playing audio:", e));
+        }
+      })
+      .catch((err) => {
+        console.error(`${err.name}: ${err.message}`);
+      });
+  }, []);
 
-          mediaRecorder.onstop = () => {
-            console.log("On Stop")
-            audio.setAttribute("controls", "");
-            audio.controls = true;
-            console.log(chunks)
-            const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
-            const audioURL = URL.createObjectURL(blob);
-            console.log(audioURL.substring(5,),blob)
-            audio.src = audioURL;
-            console.log("recorder stopped");
-            chunks = [];
-          };
-
-
-          mediaRecorder.ondataavailable = (e) => {
-            console.log("Here om dataavailable")
-            chunks.push(e.data);
-          };
-
-        })
-        .catch((err) => {
-          // always check for errors at the end.
-          console.error(`${err.name}: ${err.message}`);
-        });
+  const toggleAudio = () => {
+    if (stream) {
+      const audioTrack = stream.getAudioTracks()[0];
+      audioTrack.enabled = !isAudioOn;
+      setIsAudioOn(!isAudioOn);
     }
-  }, [VideoRef, AudioRef]);
+  };
+
+  const toggleVideo = () => {
+    if (stream) {
+      const videoTrack = stream.getVideoTracks()[0];
+      videoTrack.enabled = !isVideoOn;
+      setIsVideoOn(!isVideoOn);
+    }
+  };
+
   return (
-    <div className="absolute md:w-auto w-1/2 h-1/2 right-0 bottom-0 z-20">
-      <video ref={VideoRef} className="" autoPlay></video>
-      <div className="flex flex-col gap-2">
-      <Button variant="outline" onClick={() => {mediaRecorders?.start(); VideoRef.current?.play()}} className="p-2">Start Recording</Button>
-      <Button variant="outline" className="p-2" onClick={() => {mediaRecorders?.stop();VideoRef.current?.pause()}}>Pause Recording</Button>
+    <div className="absolute w-64 h-44 right-0 bottom-0 z-20 bg-gray-100 rounded-lg shadow-lg p-3">
+      <div className="relative w-full h-full">
+        <video 
+          ref={VideoRef} 
+          className="w-full h-full rounded-lg shadow-md"
+          autoPlay 
+          playsInline
+          muted
+        />
+        {!isVideoOn && (
+          <div className="absolute top-0 left-0 w-full h-full bg-gray-800 rounded-lg flex items-center justify-center">
+            <span className="text-white text-2xl">Video Off</span>
+          </div>
+        )}
       </div>
-      <audio ref={AudioRef} src=""></audio>
+      <div className="flex justify-center items-center space-x-4 mt-6">
+        <button
+          onClick={toggleVideo}
+          className={`p-2 rounded-full ${isVideoOn ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-400 hover:bg-gray-500'} text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+        >
+          {isVideoOn ? <VideoCameraIcon className="w-6 h-6" /> : <VideoCameraSlashIcon className="w-6 h-6" />}
+        </button>
+        <button
+          onClick={toggleAudio}
+          className={`p-2 rounded-full ${isAudioOn ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-gray-400 hover:bg-gray-500'} text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+        >
+          {isAudioOn ? <MicrophoneIcon className="w-6 h-6" /> : <NoSymbolIcon className="w-6 h-6" />}
+        </button>
+      </div>
+      {/* <audio ref={audioRef} controls className="mt-3 w-full" /> */}
     </div>
   );
 };
 
-export default Video;
+export default Video

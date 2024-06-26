@@ -1,69 +1,103 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-export const loadModel = () => {
+  export const loadModel = (): { domElement: HTMLCanvasElement } => {
+    // Scene setup
     const scene = new THREE.Scene();
-    const ambientlight = new THREE.AmbientLight(0xffffff);
-    // var whiteLight = new THREE.PointLight(0xffffff, 1);
-    // whiteLight.position.set(0, 0, 5);
-    // scene.add(whiteLight);
-    scene.background = new THREE.Color( 0xffffff );
-    // const light = new THREE.PointLight(0xff0000, 1, 100);
-    // light.position.set(50, 50, 50);
-    // scene.add(light);
-    scene.add(ambientlight);
-    let mixerRef : THREE.AnimationMixer;
+    scene.background = new THREE.Color(0x000000);
+  
+    // Camera setup
     const camera = new THREE.PerspectiveCamera(
-      75,
+      50,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
-    camera.position.z = 2;
-
-    const renderer = new THREE.WebGLRenderer();
+    camera.position.z = 5;
+  
+    // Renderer setup
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    // sceneRef.current?.appendChild(renderer.domElement);
-
-    const loader = new GLTFLoader();
-    loader.load(
-      "../model/female model.glb",
-      (gltf) => {
-        // Check if there are animations in the gltf object
-        if (gltf.animations && gltf.animations.length > 0) {
-          mixerRef = new THREE.AnimationMixer(gltf.scene);
-          const action = mixerRef.clipAction(gltf.animations[0]); // Assuming there is only one animation
-          action.play();
-        }
-        scene.add(gltf.scene);
-        // console.log(gltf.animations)
-      },
-      function (xhr) {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-
+  
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+  
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    directionalLight.position.set(0, 1, 1);
+    scene.add(directionalLight);
+  
+    // Debug cube
+    const cubeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+    const cubeMaterial = new THREE.MeshBasicMaterial({ color: '#333333' });
+    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    scene.add(cube);
+  
+    // Modal background
+    const modalGeometry = new THREE.PlaneGeometry(9.5, 8);
+    const modalMaterial = new THREE.MeshBasicMaterial({ color: 0xf0f0f0 });
+    const modal = new THREE.Mesh(modalGeometry, modalMaterial);
+    modal.position.set(0, 0, -0.1);
+    scene.add(modal);
+  
+    // Animation mixer
+    let mixer: THREE.AnimationMixer | null = null;
+  
+    // Animation function
     const animate = () => {
       requestAnimationFrame(animate);
-      // Update the animation mixer
-      if (mixerRef) {
-        mixerRef.update(0.016); // Assuming a frame rate of 60fps
+      
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+      
+      if (mixer) {
+        mixer.update(0.016); // Assumes 60fps
       }
+      
       renderer.render(scene, camera);
     };
-
+  
+    // Start animation
     animate();
-
+  
+    // GLTF Model loading
+    const loader = new GLTFLoader();
+    loader.load(
+      '../model/interviewmate.glb',
+      (gltf) => {
+        const character = gltf.scene;
+        character.scale.set(5, 5, 5);
+        character.position.set(0, -7.5, 0);
+        scene.add(character);
+        console.log('Model loaded successfully', character);
+  
+        // Animation setup
+        if (gltf.animations && gltf.animations.length) {
+          mixer = new THREE.AnimationMixer(character);
+          const action = mixer.clipAction(gltf.animations[0]);
+          action.play();
+        } else {
+          console.log('No animations found in the model');
+        }
+      },
+      (xhr: ProgressEvent<EventTarget>) => {
+        console.log((xhr.loaded / (xhr.total || 1) * 100) + '% loaded');
+        scene.remove(cube)
+      },
+      (error) => {
+        console.error('Error loading model:', error);
+      }
+    );
+  
+    // Window resize handler
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
-
-    window.addEventListener("resize", handleResize);
-
-    return { renderer: renderer.domElement };
-}
+  
+    window.addEventListener('resize', handleResize);
+  
+    return { domElement: renderer.domElement };
+  };
+// ../model/female model.glb

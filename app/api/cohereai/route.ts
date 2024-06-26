@@ -15,20 +15,27 @@ export async function POST(req : NextRequest) {
     });
     
     const {domain,user} = await req.json()
-    // console.log(user.user_metadata.first_name)
     if(!user){
       throw new Error("User Not found ,please SignUp or login first")
     }
     try {
       const generate = await cohere.generate({
-        prompt: `Generate interview questions for a ${domain} position. Start with a greeting and introductory section, then move on to technical questions related to the ${domain}. Ensure that the questions cover various aspects, such as the candidate's experience, problem-solving skills, and knowledge of relevant technologies. Focus solely on the questions, and exclude any additional information or introductory paragraphs. Use placeholders like ${user.user_metadata.first_name}  where needed. The output should be a structured set of questions resembling a real interview experience.
-        `,
+        prompt: `
+      Generate interview questions for a ${domain} position. Include:
+      
+      1. A brief greeting using ${user.user_metadata.first_name}
+      2. 2-3 introductory questions about the candidate's background
+      3. 5-7 technical questions specific to ${domain}, covering:
+         - Experience
+         - Problem-solving skills
+         - Knowledge of relevant technologies
+      4. 1-2 closing questions about career goals or culture fit
+      
+      Format as a numbered list. Exclude any explanations or additional text.
+      `
       });
 
       const generatedText = generate.generations[0].text;
-      
-      // Send the generated text back to the client side
-      // const body = JSON.parse(req.body)
       
       return NextResponse.json( generatedText , { status: 200 }); 
 

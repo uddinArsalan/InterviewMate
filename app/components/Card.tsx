@@ -12,11 +12,12 @@ const Card = () => {
           </div>
           <div className="flex gap-2 items-center">
             <Image
-              src={`https://source.unsplash.com/48x48/?headshot&n=${id+(Date.now())}`}
+              src={`https://source.unsplash.com/48x48/?headshot&sig=${Math.random()}`}
               alt={`testimonial_img-${id}`}
               width={48}
               height={48}
               className="rounded-full"
+              unoptimized
             />
             <span className="text-xs text-gray-600 dark:text-gray-300">{name}</span>
           </div>

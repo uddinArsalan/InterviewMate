@@ -35,7 +35,8 @@ const Hero = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 justify-center gap-12">
         <div>
         <Image
-          src={`https://source.unsplash.com/1000x1200/?job interview&n=${Date.now()}`}
+          priority
+          src={`https://picsum.photos/seed/job/1000/1200`}
           width={1000}
           height={1200}
           // fill={true}

@@ -17,14 +17,14 @@ const ModelAndVideoDisplay = () => {
         <Model />
       ) : (
         <Image
-          src={`https://source.unsplash.com/1200x600/?interview&n=${Date.now()}/`}
+          src={`https://picsum.photos/1200/600/`}
           className="md:object-cover object-contain"
           alt="interview-section"
           width={1200}
           height={300}
         ></Image>
       )}
-      {/* <Video /> */}
+      <Video />
     </div>
   );
 };

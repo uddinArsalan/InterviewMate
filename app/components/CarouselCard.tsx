@@ -21,11 +21,13 @@ const CarouselCard = () => {
           <CarouselItem key={id} className='basis-full md:basis-1/2'>
           <div className="flex flex-col gap-2 items-center cursor-pointer">
             <Image
-              src={`https://source.unsplash.com/600x300/?${domain}&n=${Date.now()}`}
+              src={`https://loremflickr.com/g/600/300/${domain}`}
               alt={`avatar${id}`}
               width={600}
               height={300}
-              className=" "
+              unoptimized
+              
+              // className=" "
             />
             <span className="text-3xl font-bold dark:text-purple-500">
               {domain}

@@ -1,34 +1,50 @@
 export const CarouselData = [
     {
-        id : 1,
-        domain : "Software Development"
+        id: 1,
+        domain: "Frontend Web Development"
     },
     {
-        id : 2,
-        domain : "Finance"
+        id: 2,
+        domain: "Backend Web Development"
     },
     {
-        id : 3,
-        domain : "Artifical Intelligence"
+        id: 3,
+        domain: "Mobile App Development"
     },
     {
-        id : 4,
-        domain : "Software Testing"
+        id: 4,
+        domain: "Data Science"
     },
     {
-        id : 5,
-        domain : "Game Development"
+        id: 5,
+        domain: "Machine Learning Engineering"
     },
     {
-        id : 6,
-        domain : "Cybersecurity"
+        id: 6,
+        domain: "DevOps"
     },
     {
-        id : 7,
-        domain : "Data Science"
+        id: 7,
+        domain: "Cloud Computing"
     },
     {
-        id : 8,
-        domain : "Web3"
+        id: 8,
+        domain: "Cybersecurity"
     },
-]
+    {
+        id: 9,
+        domain: "UI/UX Design"
+    },
+    {
+        id: 10,
+        domain: "Blockchain Development"
+    },
+    {
+        id: 11,
+        domain: "Full Stack Development"
+    },
+    {
+        id: 12,
+        domain: "Quality Assurance"
+    }
+];

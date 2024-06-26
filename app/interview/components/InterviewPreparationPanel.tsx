@@ -14,7 +14,7 @@ const InterviewPreparationPanel = () => {
       </div>
       <StartInterView />
     </div>
-      <div className="flex flex-col gap-2 items-center">
+      <div className="flex flex-col gap-2 items-center mt-8">
         <div className="text-xs dark:text-gray-700">
           Give access to your microphone and web camera
         </div>
