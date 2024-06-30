@@ -17,11 +17,12 @@ const CarouselCard = () => {
   return (
     <Carousel className="w-full relative">
       <CarouselContent className=''>
-        {CarouselData.map(({ id, domain }) => (
+        {CarouselData.map(({ id, domain ,image}) => (
           <CarouselItem key={id} className='basis-full md:basis-1/2'>
           <div className="flex flex-col gap-2 items-center cursor-pointer">
             <Image
-              src={`https://loremflickr.com/g/600/300/${domain}`}
+              // src={`https://loremflickr.com/g/600/300/${domain}`}
+              src={image}
               alt={`avatar${id}`}
               width={600}
               height={300}

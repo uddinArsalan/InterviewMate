@@ -36,12 +36,11 @@ const Hero = () => {
         <div>
         <Image
           priority
-          src={`https://picsum.photos/seed/job/1000/1200`}
+          src={`https://images.unsplash.com/photo-1552664730-d307ca884978?fit=crop&w=1000&h=1200&q=80`}
           width={1000}
           height={1200}
-          // fill={true}
+          alt= "A person confidently preparing for an interview with a laptop and notes"
           className="rounded-md"
-          alt="Hero Image"
         />
         </div>
 

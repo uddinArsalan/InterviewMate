@@ -2,11 +2,9 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
   export const loadModel = (): { domElement: HTMLCanvasElement } => {
-    // Scene setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000);
   
-    // Camera setup
     const camera = new THREE.PerspectiveCamera(
       50,
       window.innerWidth / window.innerHeight,
@@ -15,11 +13,9 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
     );
     camera.position.z = 5;
   
-    // Renderer setup
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
   
-    // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
   
@@ -27,23 +23,19 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
     directionalLight.position.set(0, 1, 1);
     scene.add(directionalLight);
   
-    // Debug cube
     const cubeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
     const cubeMaterial = new THREE.MeshBasicMaterial({ color: '#333333' });
     const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     scene.add(cube);
   
-    // Modal background
     const modalGeometry = new THREE.PlaneGeometry(9.5, 8);
     const modalMaterial = new THREE.MeshBasicMaterial({ color: 0xf0f0f0 });
     const modal = new THREE.Mesh(modalGeometry, modalMaterial);
     modal.position.set(0, 0, -0.1);
     scene.add(modal);
   
-    // Animation mixer
     let mixer: THREE.AnimationMixer | null = null;
   
-    // Animation function
     const animate = () => {
       requestAnimationFrame(animate);
       
@@ -51,16 +43,14 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
       cube.rotation.y += 0.01;
       
       if (mixer) {
-        mixer.update(0.016); // Assumes 60fps
+        mixer.update(0.016);
       }
       
       renderer.render(scene, camera);
     };
   
-    // Start animation
     animate();
   
-    // GLTF Model loading
     const loader = new GLTFLoader();
     loader.load(
       '../model/interviewmate.glb',
@@ -71,7 +61,6 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
         scene.add(character);
         console.log('Model loaded successfully', character);
   
-        // Animation setup
         if (gltf.animations && gltf.animations.length) {
           mixer = new THREE.AnimationMixer(character);
           const action = mixer.clipAction(gltf.animations[0]);
@@ -89,7 +78,6 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
       }
     );
   
-    // Window resize handler
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
