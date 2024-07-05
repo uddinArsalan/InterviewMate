@@ -1,7 +1,8 @@
 "use client";
-
-import React, { useState ,useContext} from "react";
-import { SupbaseContext } from "@/app/context/SupbaseProvider";
+import React, { useState } from "react";
+import { useSupbase } from "@/app/context/SupbaseProvider";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface formType {
   name : string,
@@ -17,7 +18,8 @@ const Form = () => {
     password: "",
     // confirmPassword : ""
   });
-  const supabase = useContext(SupbaseContext);
+  const supabase = useSupbase();
+  const router = useRouter();
   async function signUpNewUser(e : any) {
     e.preventDefault()
     if(supabase){
@@ -30,7 +32,13 @@ const Form = () => {
           }
         }
       });
-      console.log(data);
+      if(error){
+        toast.error(error.message);
+      }
+      if(data.user !== null && !error){
+        toast.success("Sign Up successfully")
+        router.push('/');
+      }
     }
   }
   return (

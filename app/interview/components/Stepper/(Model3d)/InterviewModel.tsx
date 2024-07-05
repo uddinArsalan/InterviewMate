@@ -1,8 +1,8 @@
 "use client";
 import React, { useRef, useEffect } from "react";
-import { loadModel } from "../LoadModel";
+import { loadModel } from "@/app/utils/loadModel";
 
-const Model = () => {
+const InterviewModel = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,4 +21,4 @@ const Model = () => {
   return <div ref={containerRef} />;
 };
 
-export default Model;
+export default InterviewModel;

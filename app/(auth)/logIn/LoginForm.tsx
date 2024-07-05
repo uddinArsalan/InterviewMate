@@ -1,6 +1,8 @@
 "use client";
-import React, { useState, useContext } from "react";
-import { SupbaseContext } from "@/app/context/SupbaseProvider";
+import React, { useState } from "react";
+import { useSupbase } from "@/app/context/SupbaseProvider";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface formType {
   email: string;
@@ -8,21 +10,29 @@ interface formType {
 }
 
 const LoginForm = () => {
-  const supabase = useContext(SupbaseContext);
+  const supabase = useSupbase();
   const [formData, setFormData] = useState<formType>({
     email: "",
-    password: ""
+    password: "",
   });
 
-  const logIn = async (e : any) => {
-    console.log("Inside login")
-    e.preventDefault()
+  const router = useRouter();
+
+  const logIn = async (e: any) => {
+    console.log("Inside login");
+    e.preventDefault();
     if (supabase) {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
       });
-      console.log(data,error)
+
+      if (error) {
+        toast.error(error.message);
+        router.push("/signup");
+      } else {
+        toast.success("Login Successfully");
+      }
     }
   };
   return (
@@ -52,7 +62,10 @@ const LoginForm = () => {
         By clicking Create account below, you agree to our Terms of Service and
         Privacy Policy.
       </div> */}
-      <button className="bg-gradient-to-r from-purple-700 to-pink-700 p-2 rounded-full w-1/3 flex justify-center items-center text-white" onClick={(e) =>logIn(e)}>
+      <button
+        className="bg-gradient-to-r from-purple-700 to-pink-700 p-2 rounded-full w-1/3 flex justify-center items-center text-white"
+        onClick={(e) => logIn(e)}
+      >
         Log In
       </button>
     </form>

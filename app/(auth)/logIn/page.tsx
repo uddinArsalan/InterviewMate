@@ -4,6 +4,7 @@ import GoogleAuth from "../GoogleAuth"
 import GithubAuth from '../GithubAuth';
 import LoginForm from './LoginForm';
 
+
 const LogIn = () => {
     return (
         <div className='flex flex-col gap-3 items-center h-screen lg:p-16 p-10'>

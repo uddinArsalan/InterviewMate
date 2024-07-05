@@ -8,7 +8,11 @@ const nextConfig = {
           },
           {
             protocol: 'https',
-            hostname: 'unsplash.com',
+            hostname: 'storage.googleapis.com',
+          },
+          {
+            protocol: 'https',
+            hostname: 'lh3.googleusercontent.com',
           },
           {
             protocol: 'https',

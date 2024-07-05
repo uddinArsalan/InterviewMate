@@ -1,29 +1,31 @@
 "use client";
-
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Description from "./Description";
 import Code from "./Code";
 import { Button } from "@/components/ui/button";
+import { ChevronRight } from 'lucide-react';
 
 const SolutionTabs = () => {
   return (
     <>
-    <Tabs defaultValue="description" className="w-full m-0">
-      <TabsList className="w-full">
-        <TabsTrigger value="description" className="w-1/2">
-          Description
-        </TabsTrigger>
-        <TabsTrigger value="code" className="w-1/2">
-          Code
-        </TabsTrigger>
-      </TabsList>
-      <TabsContent value="description">
-        <Description />
-      </TabsContent>
-      <TabsContent value="code"><Code /></TabsContent>
-    </Tabs>
-    <Button className="bg-green-700 p-6 dark:text-black font-bold text-white">Submit</Button>
+    <div className="w-full max-w-3xl mx-auto space-y-6">
+      <Tabs defaultValue="description" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="description">Description</TabsTrigger>
+          <TabsTrigger value="code">Code</TabsTrigger>
+        </TabsList>
+        <TabsContent value="description">
+          <Description />
+        </TabsContent>
+        <TabsContent value="code">
+          <Code />
+        </TabsContent>
+      </Tabs>
+      <Button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3">
+        Submit <ChevronRight className="ml-2 h-4 w-4" />
+      </Button>
+    </div>
     </>
   );
 };

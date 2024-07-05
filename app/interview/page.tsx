@@ -4,7 +4,8 @@ import React from "react";
 import Navbar from "@/app/components/Navbar";
 import ModelContextProvider from "../context/ModelContextProvider";
 import InterviewPreparationPanel from "./components/InterviewPreparationPanel";
-import ModelAndVideoDisplay from "./components/ModelAndVideoDisplay";
+import ModelAndVideoDisplay from "./components/Stepper/InterviewPanel";
+import InterviewSteps from "./components/Stepper/Steps";
 
 const page = () => {
   // const [showModel,setShowModel] = useState(false)
@@ -59,7 +60,7 @@ const page = () => {
       <Navbar />
       <ModelContextProvider>
         <div className="dark:bg-[#000000] flex flex-col gap-8 p-4 md:p-6">
-          <ModelAndVideoDisplay />
+          <InterviewSteps />
           <div>
             <InterviewPreparationPanel />
           </div>

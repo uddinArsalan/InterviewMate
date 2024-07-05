@@ -1,16 +1,17 @@
 import React from "react";
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent } from '@/components/ui/card';
 
 const Description = () => {
   return (
-    <div>
-      <textarea
-        name=""
-        id=""
-        rows={8}
+    <Card className="w-full">
+    <CardContent className="p-6">
+      <Textarea
         placeholder="Input your answer here ..."
-        className="p-8 w-full border-black border-2"
-      ></textarea>
-    </div>
+        className="min-h-[200px]"
+      />
+    </CardContent>
+  </Card>
   );
 };
 

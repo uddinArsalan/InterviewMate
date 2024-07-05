@@ -1,12 +1,13 @@
+import { User } from '@supabase/supabase-js';
 import { CohereClient } from 'cohere-ai';
 import { NextRequest, NextResponse } from 'next/server';
 
 const API_KEY = process.env.TRIAL_KEY;
-// interface MyRequestBody {
-//   domain: string;
-//   // Add other properties if necessary
-// }
 
+interface RequestType {
+  domain : string;
+  user : User
+}
 
 export async function POST(req : NextRequest) {
   if (API_KEY) {
@@ -14,16 +15,17 @@ export async function POST(req : NextRequest) {
       token: API_KEY,
     });
     
-    const {domain,user} = await req.json()
+    const {domain,user} : RequestType = await req.json();
+    console.log("Domain Selected " + domain, "User " + user);
     if(!user){
       throw new Error("User Not found ,please SignUp or login first")
     }
     try {
-      const generate = await cohere.generate({
-        prompt: `
+      const response = await cohere.chat({
+        message: `
       Generate interview questions for a ${domain} position. Include:
       
-      1. A brief greeting using ${user.user_metadata.first_name}
+      1. A brief greeting using ${user.user_metadata.full_name}
       2. 2-3 introductory questions about the candidate's background
       3. 5-7 technical questions specific to ${domain}, covering:
          - Experience
@@ -35,8 +37,8 @@ export async function POST(req : NextRequest) {
       `
       });
 
-      const generatedText = generate.generations[0].text;
-      
+      const generatedText = response.text;
+      console.log("Generated Text from cohere ai ")
       return NextResponse.json( generatedText , { status: 200 }); 
 
     } catch (error) {
