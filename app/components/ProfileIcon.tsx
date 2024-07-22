@@ -1,5 +1,5 @@
 "use client";
-import React,{useState} from "react";
+import React from "react";
 import { useApp } from "../../context/AppProvider";
 import Image from "next/image";
 import { useSupabase } from "../../context/SupabaseProvider";
@@ -11,12 +11,8 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
@@ -31,10 +27,6 @@ const DropDown : React.FC<React.PropsWithChildren> = ({children} ) => {
     }
   }
 
-  async function handleQuestions(){
-   const userQuestions = await getUserQuestions(9);
-   console.log(userQuestions)
-  }
   return (
     <DropdownMenu>
     <DropdownMenuTrigger asChild>
@@ -49,7 +41,7 @@ const DropDown : React.FC<React.PropsWithChildren> = ({children} ) => {
           <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuGroup>
-      <DropdownMenuItem onClick={handleQuestions}>Support</DropdownMenuItem>
+      <DropdownMenuItem>Support</DropdownMenuItem>
       <DropdownMenuSeparator />
       <DropdownMenuItem>
         Log out
