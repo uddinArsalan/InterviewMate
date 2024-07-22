@@ -54,6 +54,7 @@ const ThemeToggle = () => {
 
 const MobileMenu = () => {
   const { currentUser } = useApp();
+  const isLoggedIn = currentUser ? true : false
   return (
     <Sheet>
       <SheetTrigger className="md:hidden p-2">
@@ -65,7 +66,7 @@ const MobileMenu = () => {
         </SheetHeader>
         <nav className="mt-8 flex flex-col space-y-4">
           <MobileNavItem href="/" label="Home" />
-          <MobileNavItem href="/interview" label="Interview" />
+          <MobileNavItem href={isLoggedIn ? "/interview" : "/signUp"} label="Interview" />
           <MobileNavItem href="/feedback" label="Feedback" />
           {currentUser ? (
               <MobileNavItem href="/profile" label="Profile">
@@ -73,12 +74,12 @@ const MobileMenu = () => {
               </MobileNavItem>
           ) : (
             <div className="mt-8 space-y-4">
-              <Link href="/login" className="block w-full">
+              <Link href="/logIn" className="block w-full">
                 <button className="w-full bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition duration-150 ease-in-out">
                   Log In
                 </button>
               </Link>
-              <Link href="/signup" className="block w-full">
+              <Link href="/signUp" className="block w-full">
                 <button className="w-full bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition duration-150 ease-in-out">
                   Sign Up
                 </button>
@@ -113,7 +114,7 @@ const MobileNavItem = ({
 
 const Navbar = () => {
   const { currentUser } = useApp();
-
+  const isLoggedIn = currentUser ? true : false
   return (
     <nav className="bg-gray-50 dark:bg-black dark:border-0 border-gray-200 dark:border-gray-700 border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -130,7 +131,7 @@ const Navbar = () => {
           <div className="hidden md:flex md:items-center md:space-x-6">
             <NavItem href="/" label="Home" />
             <NavItem href="/profile" label="Profile" />
-            <NavItem href="/interview" label="Interview" />
+            <NavItem href={isLoggedIn ? "/interview" : "/signUp"} label="Interview" />
             <NavItem href="/feedback" label="Feedback" />
           </div>
 
@@ -140,12 +141,12 @@ const Navbar = () => {
                 <ProfileIcon />
               ) : (
                 <>
-                  <Link href="/login">
+                  <Link href="/logIn">
                     <button className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition duration-150 ease-in-out">
                       Log In
                     </button>
                   </Link>
-                  <Link href="/signup">
+                  <Link href="/signUp">
                     <button className="bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition duration-150 ease-in-out">
                       Sign Up
                     </button>

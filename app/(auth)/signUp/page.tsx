@@ -21,7 +21,7 @@ const SignUp = () => {
       <SignUpForm />
       <div className="text-sm">
         Already have an account?
-        <Link href="/login">
+        <Link href="/logIn">
           <span className="text-blue-500">Log in here</span>
         </Link>
       </div>

@@ -4,8 +4,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, CheckCircle, PlayCircle } from "lucide-react";
+import { useApp } from "@/context/AppProvider";
 
 const HeroSection = () => {
+  const {currentUser} = useApp();
+  const isLoggedIn = currentUser ? true : false
   return (
     <div className="bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-white min-h-screen">
       <div className="container mx-auto px-4 py-8 sm:py-12 lg:py-16">
@@ -25,7 +28,7 @@ const HeroSection = () => {
               AI-powered practice, personalized feedback, and industry-specific insights to ace your next interview.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/signUp" className="w-full sm:w-auto">
+              <Link href={isLoggedIn ? `/interview` :  `/signUp`} className="w-full sm:w-auto">
                 <Button size="lg" className="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 text-base sm:text-lg">
                   Get Started <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>

@@ -29,7 +29,7 @@ const LoginForm = () => {
 
       if (error) {
         toast.error(error.message);
-        router.push("/signup");
+        router.push("/signUp");
       } else {
         toast.success("Login Successfully");
       }
