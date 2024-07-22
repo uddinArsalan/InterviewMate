@@ -5,11 +5,12 @@ import Description from "./Description";
 import Code from "./Code";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from 'lucide-react';
+import { startInterviewAudio } from "@/lib/audioFunctions";
 
 const SolutionTabs = () => {
   return (
     <>
-    <div className="w-full max-w-3xl mx-auto space-y-6">
+    <div className="w-full max-w-5xl mx-auto space-y-6">
       <Tabs defaultValue="description" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="description">Description</TabsTrigger>

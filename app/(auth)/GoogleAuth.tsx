@@ -1,11 +1,11 @@
 "use client";
-import React, { useContext } from "react";
+import React from "react";
 import google_icon from "@/public/google-icon.svg";
-import { SupbaseContext } from "@/app/context/SupbaseProvider";
+import { useSupabase } from "@/context/SupabaseProvider";
 import Image from "next/image";
 
 const GoogleAuth = () => {
-  const supabase = useContext(SupbaseContext);
+  const { supabase } = useSupabase();
   const signInWithGoogle = async () => {
     if (supabase) {
       const { data, error } = await supabase.auth.signInWithOAuth({
@@ -21,7 +21,10 @@ const GoogleAuth = () => {
     }
   };
   return (
-    <div className="flex bg-blue-500 text-sm font-semibold border-2 cursor-pointer" onClick={signInWithGoogle}>
+    <div
+      className="flex bg-blue-500 text-sm font-semibold border-2 cursor-pointer"
+      onClick={signInWithGoogle}
+    >
       <div className="bg-white p-2 flex justify-center items-center">
         <Image src={google_icon} alt="" className="w-4" />
       </div>

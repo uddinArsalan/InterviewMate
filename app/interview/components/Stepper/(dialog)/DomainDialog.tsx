@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useModel } from "@/app/context/ModelContextProvider";
+import { useModel } from "@/context/ModelContextProvider";
+import { startInterviewSession, storeUserQuestions } from "@/lib/db";
 import {
   Dialog,
   DialogClose,
@@ -12,56 +13,67 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import Check from "./Checkbox";
 import "./styles/style.css";
-import { useApp } from "@/app/context/AppProvider";
-import toast from "react-hot-toast"
+import { useApp } from "@/context/AppProvider";
+import toast from "react-hot-toast";
+import CheckList from "./Checkbox";
+
+interface QuestionData {
+  question: string;
+  questionNumber: number;
+}
 
 const DomainDialog = () => {
-  const [value, setValue] = useState("");
-  const { currentUser, openDomainDialog, toggleDomainSelectionDialogBox, closeDialogBox, startLoader, completeLoader } = useApp();
+  const {
+    currentUser,
+    openDomainDialog,
+    toggleDomainSelectionDialogBox,
+    closeDialogBox,
+    startLoader,
+    completeLoader,
+    domainValue,
+    updateInterviewSessionId,
+    updateQuestionIdArray,
+    interviewSessionId
+  } = useApp();
   const { setStep } = useModel();
 
-  const generateQuestions = async (): Promise<string> => {
+  const generateQuestions = async (interviewId: number): Promise<string> => {
     const res = await fetch(`/api/cohereai`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ domain: value, user: currentUser }),
-    });
-    if (!res.ok) {
-      throw new Error("Failed to generate questions");
-    }
-    return res.json();
-  };
-
-  const insertQuestions = async (questionText: string): Promise<void> => {
-    const res = await fetch(`/api/insert-questions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({
-        domainValue: value,
-        questions_text: questionText,
+        domain: domainValue,
+        user: currentUser,
+        interviewId,
       }),
     });
     if (!res.ok) {
-      throw new Error("Failed to insert questions");
+      setStep((prevSteps) => ({ ...prevSteps, isInterviewStarted: false }));
+      throw new Error("Failed to generate questions");
     }
+    console.log(res);
+    const { question, questionNumber }: QuestionData = await res.json();
+    // console.log(question, questionNumber);
+    return question;
   };
 
-  const handleQuestion = async () => {
-    closeDialogBox();
+  const handleQuestion = async (interviewId: number) => {
     const loaderId = startLoader();
 
     try {
-      const questions = await generateQuestions();
-      if (questions && questions !== undefined) {
-        await insertQuestions(questions);
+      const question = await generateQuestions(interviewId);
+      if (currentUser && question && question !== undefined) {
+        const questionId: number = await storeUserQuestions(
+          currentUser,
+          interviewId,
+          question
+        );
+        updateQuestionIdArray(questionId);
         toast.success("Questions generated and inserted successfully");
-        setStep(prev => ({ ...prev, isDomainSelected: true }));
+        setStep((prev) => ({ ...prev, isDomainSelected: true }));
       } else {
         throw new Error("No questions were generated");
       }
@@ -72,7 +84,37 @@ const DomainDialog = () => {
       } else {
         toast.error("An unexpected error occurred");
       }
-      setStep(prev => ({ ...prev, isDomainSelected: false }));
+      setStep((prev) => ({ ...prev, isDomainSelected: false }));
+    } finally {
+      completeLoader(loaderId);
+    }
+  };
+
+  const startInterview = async () => {
+    closeDialogBox();
+    const loaderId = startLoader();
+    let interviewId : number;
+    try {
+      if (!currentUser) {
+        toast.error("Please Signup First");
+        return;
+      }
+      // console.log(interviewSessionId);
+      if(interviewSessionId === 0){
+        interviewId = await startInterviewSession(currentUser, domainValue);
+        console.log(interviewId);
+        console.log(`Interview started with ID: ${interviewId}`);
+        if(interviewId){
+          updateInterviewSessionId(interviewId);
+          await handleQuestion(interviewId);
+        } 
+      }
+      else {
+        console.log(`Interview started with ID: ${interviewSessionId}`);
+        await handleQuestion(interviewSessionId);
+      } 
+    } catch (error) {
+      console.error("Error starting interview session:", error);
     } finally {
       completeLoader(loaderId);
     }
@@ -80,43 +122,39 @@ const DomainDialog = () => {
 
   return (
     <Dialog open={openDomainDialog} onOpenChange={toggleDomainSelectionDialogBox}>
-      <DialogContent className="sm:max-w-[600px] sm:max-h-[80vh] bg-white dark:bg-gray-800 overflow-hidden">
-        <DialogHeader className="pb-4">
-          <DialogTitle className="text-3xl font-bold text-gray-800 dark:text-gray-100">
-            Select Your Domain
-          </DialogTitle>
-          <DialogDescription className="text-lg text-gray-600 dark:text-gray-300">
-            Choose the domain that best fits your expertise and interests.
-          </DialogDescription>
-        </DialogHeader>
-        <ScrollArea className="h-[50vh] pr-4">
-          <Check value={value} setValue={setValue} />
-        </ScrollArea>
-        <DialogFooter className="flex justify-end space-x-3 mt-6">
-          <Button
-            variant="outline"
-            className="text-gray-700 border-gray-300 hover:bg-gray-100 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
-            onClick={() => {
-              closeDialogBox();
-              setStep(prev => ({...prev, isCharacterSelected: false}));
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="button"
-            variant="default"
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6"
-            onClick={handleQuestion}
-            disabled={!value}
-          >
-            Submit
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <DialogContent className="sm:max-w-[600px] w-[95vw] max-h-[90vh] bg-white dark:bg-gray-800 overflow-hidden">
+      <DialogHeader className="pb-4">
+        <DialogTitle className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100">
+          Select Your Domain
+        </DialogTitle>
+        <DialogDescription className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
+          Choose the domain that best fits your expertise and interests.
+        </DialogDescription>
+      </DialogHeader>
+      <ScrollArea className="h-[50vh] pr-4 overflow-y-auto">
+        <CheckList  />
+      </ScrollArea>
+      <DialogFooter className="flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <Button
+          variant="outline"
+          className="text-gray-700 border-gray-300 hover:bg-gray-100 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
+          onClick={closeDialogBox}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="button"
+          variant="default"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white px-6"
+          onClick={startInterview}
+          disabled={!domainValue}
+        >
+          Submit
+        </Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
   );
 };
-
 
 export default DomainDialog;

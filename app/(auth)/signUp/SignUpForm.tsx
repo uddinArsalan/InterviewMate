@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useSupbase } from "@/app/context/SupbaseProvider";
+import { useSupabase } from "@/context/SupabaseProvider";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -8,17 +8,15 @@ interface formType {
   name : string,
   email: string;
   password: string;
-  // confirmPassword : string
 }
 
-const Form = () => {
+const SignUpForm = () => {
   const [formData, setFormData] = useState<formType>({
     name : "",
     email: "",
     password: "",
-    // confirmPassword : ""
   });
-  const supabase = useSupbase();
+  const {supabase} = useSupabase();
   const router = useRouter();
   async function signUpNewUser(e : any) {
     e.preventDefault()
@@ -86,5 +84,4 @@ const Form = () => {
   );
 };
 
-export default Form;
-// ahdhahdh
+export default SignUpForm;

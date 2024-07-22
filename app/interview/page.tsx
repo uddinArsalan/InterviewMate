@@ -2,7 +2,7 @@ import React from "react";
 // import { createServerClient, type CookieOptions } from '@supabase/ssr'
 // import { cookies } from 'next/headers';
 import Navbar from "@/app/components/Navbar";
-import ModelContextProvider from "../context/ModelContextProvider";
+import ModelContextProvider from "../../context/ModelContextProvider";
 import InterviewPreparationPanel from "./components/InterviewPreparationPanel";
 import ModelAndVideoDisplay from "./components/Stepper/InterviewPanel";
 import InterviewSteps from "./components/Stepper/Steps";
@@ -45,7 +45,7 @@ const page = () => {
   // const result = await response.json();
   // console.log(result)
 
-  // !! Important !!
+  // 
   // const generateData = async () => {
   //   const res = await fetch("http://localhost:3000/api/cohereai", {
   //     method: "POST",

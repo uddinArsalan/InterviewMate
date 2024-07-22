@@ -7,7 +7,7 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import ProfileIcon from "./ProfileIcon";
-import { useApp } from "../context/AppProvider";
+import { useApp } from "../../context/AppProvider";
 import {
   Sheet,
   SheetContent,
@@ -65,37 +65,49 @@ const MobileMenu = () => {
         </SheetHeader>
         <nav className="mt-8 flex flex-col space-y-4">
           <MobileNavItem href="/" label="Home" />
-          <MobileNavItem href="/profile" label="Profile" />
           <MobileNavItem href="/interview" label="Interview" />
           <MobileNavItem href="/feedback" label="Feedback" />
+          {currentUser ? (
+              <MobileNavItem href="/profile" label="Profile">
+              <ProfileIcon />
+              </MobileNavItem>
+          ) : (
+            <div className="mt-8 space-y-4">
+              <Link href="/login" className="block w-full">
+                <button className="w-full bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition duration-150 ease-in-out">
+                  Log In
+                </button>
+              </Link>
+              <Link href="/signup" className="block w-full">
+                <button className="w-full bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition duration-150 ease-in-out">
+                  Sign Up
+                </button>
+              </Link>
+            </div>
+          )}
         </nav>
-        {currentUser ? (
-          <ProfileIcon />
-        ) : (
-          <div className="mt-8 space-y-4">
-            <Link href="/login" className="block w-full">
-              <button className="w-full bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition duration-150 ease-in-out">
-                Log In
-              </button>
-            </Link>
-            <Link href="/signup" className="block w-full">
-              <button className="w-full bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition duration-150 ease-in-out">
-                Sign Up
-              </button>
-            </Link>
-          </div>
-        )}
       </SheetContent>
     </Sheet>
   );
 };
 
-const MobileNavItem = ({ href, label }: { href: string; label: string }) => (
+const MobileNavItem = ({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children?: React.ReactNode;
+}) => (
   <Link
     href={href}
-    className="block px-4 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800 rounded-md"
+    className="block px-4 py-2 text-base font-medium text-gray-700 hover:text-purple-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800 rounded-md "
   >
-    {label}
+    <div className="flex justify-between items-center">
+      {label}
+      <span>{children}</span>
+    </div>
   </Link>
 );
 
@@ -123,24 +135,24 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-              <div className="hidden md:flex md:items-center md:space-x-2">
-            {currentUser ? (
-              <ProfileIcon />
-            ) : (
-              <>
-                <Link href="/login">
-                  <button className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition duration-150 ease-in-out">
-                    Log In
-                  </button>
-                </Link>
-                <Link href="/signup">
-                  <button className="bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition duration-150 ease-in-out">
-                    Sign Up
-                  </button>
-                </Link>
+            <div className="hidden md:flex md:items-center md:space-x-2">
+              {currentUser ? (
+                <ProfileIcon />
+              ) : (
+                <>
+                  <Link href="/login">
+                    <button className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition duration-150 ease-in-out">
+                      Log In
+                    </button>
+                  </Link>
+                  <Link href="/signup">
+                    <button className="bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition duration-150 ease-in-out">
+                      Sign Up
+                    </button>
+                  </Link>
                 </>
-            )}
-              </div>
+              )}
+            </div>
             <ThemeToggle />
             <MobileMenu />
           </div>

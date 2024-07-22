@@ -31,11 +31,13 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "react-spinners": "^0.13.8",
+    "sharp": "^0.33.4",
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.160.0"
   },
   "devDependencies": {
+    "@types/dom-speech-recognition": "^0.0.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

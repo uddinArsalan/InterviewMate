@@ -1,20 +1,14 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-export const loadModel = (): { domElement: HTMLCanvasElement } => {
+export const loadModel = (containerRef: React.RefObject<HTMLDivElement>) => {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
 
-  const camera = new THREE.PerspectiveCamera(
-    50,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
   camera.position.z = 5;
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
 
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
   scene.add(ambientLight);
@@ -22,11 +16,6 @@ export const loadModel = (): { domElement: HTMLCanvasElement } => {
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
   directionalLight.position.set(0, 1, 1);
   scene.add(directionalLight);
-
-  // const cubeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-  // const cubeMaterial = new THREE.MeshBasicMaterial({ color: "#333333" });
-  // const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-  // scene.add(cube);
 
   const modalGeometry = new THREE.PlaneGeometry(9.5, 8);
   const modalMaterial = new THREE.MeshBasicMaterial({ color: 0xf0f0f0 });
@@ -39,17 +28,12 @@ export const loadModel = (): { domElement: HTMLCanvasElement } => {
   const animate = () => {
     requestAnimationFrame(animate);
 
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
-
     if (mixer) {
       mixer.update(0.016);
     }
 
     renderer.render(scene, camera);
   };
-
-  animate();
 
   const loader = new GLTFLoader();
   loader.load(
@@ -71,7 +55,6 @@ export const loadModel = (): { domElement: HTMLCanvasElement } => {
     },
     (xhr: ProgressEvent<EventTarget>) => {
       console.log((xhr.loaded / (xhr.total || 1)) * 100 + "% loaded");
-      // scene.remove(cube);
     },
     (error) => {
       console.error("Error loading model:", error);
@@ -79,12 +62,19 @@ export const loadModel = (): { domElement: HTMLCanvasElement } => {
   );
 
   const handleResize = () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const container = containerRef.current;
+    if (container) {
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
   };
 
-  window.addEventListener("resize", handleResize);
+  const cleanup = () => {
+    window.removeEventListener("resize", handleResize);
+  };
 
-  return { domElement: renderer.domElement };
+  return { domElement: renderer.domElement, animate, handleResize, cleanup };
 };

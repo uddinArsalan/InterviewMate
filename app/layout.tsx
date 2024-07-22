@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import { ThemeProvider } from "@/components/theme-provider";
-import SupbaseProvider from "./context/SupbaseProvider";
+import SupabaseProvider from "../context/SupabaseProvider";
 import { Analytics } from '@vercel/analytics/react';
-import AppProvider from "./context/AppProvider";
-import ModelContextProvider from "./context/ModelContextProvider";
+import AppProvider from "../context/AppProvider";
+import ModelContextProvider from "../context/ModelContextProvider";
 
 import "./globals.css";
 
@@ -25,9 +25,8 @@ export default function RootLayout({
     <html lang="en">
       <Script src="https://kit.fontawesome.com/e9aeed2e8b.js"></Script>
       <body className={`${inter.className}`}>
-        <SupbaseProvider>
+        <SupabaseProvider>
         <AppProvider>
-          <ModelContextProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -37,9 +36,8 @@ export default function RootLayout({
             {children}
             <Analytics />
           </ThemeProvider>
-          </ModelContextProvider>
         </AppProvider>
-        </SupbaseProvider>
+        </SupabaseProvider>
       </body>
     </html>
   );

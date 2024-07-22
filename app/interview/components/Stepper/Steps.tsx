@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { useModel } from '@/app/context/ModelContextProvider';
+import { useModel } from '@/context/ModelContextProvider';
 import ChooseModelSection from './ChooseModelSection';
 import DomainDialog from './(dialog)/DomainDialog';
 import InterviewModel from './(Model3d)/InterviewModel';
@@ -13,8 +13,8 @@ const InterviewSteps = () => {
   return (
     <div>
       {!isInterviewStarted && <InterviewPanel />}
-      {isInterviewStarted && !isCharacterSelected && <ChooseModelSection />}
-      {isCharacterSelected && !isDomainSelected && <DomainDialog />}
+      {isInterviewStarted && !isDomainSelected && <DomainDialog />}
+      {isDomainSelected && !isCharacterSelected && <ChooseModelSection />}
       {isAllStepsCompleted && <InterviewModel />}
     </div>
   )

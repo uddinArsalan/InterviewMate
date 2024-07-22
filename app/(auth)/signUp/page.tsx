@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import GoogleAuth from "../GoogleAuth";
-import Form from "./Form";
+import SignUpForm from "./SignUpForm";
 import GithubAuth from "../GithubAuth";
 
 const SignUp = () => {
@@ -18,9 +18,9 @@ const SignUp = () => {
         <GithubAuth />
       </div>
       <div>OR</div>
-      <Form />
+      <SignUpForm />
       <div className="text-sm">
-        Already have an account?{" "}
+        Already have an account?
         <Link href="/login">
           <span className="text-blue-500">Log in here</span>
         </Link>

@@ -1,23 +1,28 @@
-import { CharactersType } from "@/app/interfaces"
-export const charatersData: CharactersType[] = [
+import { CharactersType } from "@/interfaces"
+
+export const charactersData: CharactersType[] = [
   {
-    id: 1,
-    name: 'Conan',
-    url: 'https://storage.googleapis.com/pai-images/ae7d6018e93845568d9b4f9b6963dd56.jpeg'
-  },
+  id: 1,
+  name: 'Casey',
+  url: 'https://images.unsplash.com/photo-1623039497026-00af61471107?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+  voice: 'Google UK English Female (en-GB)'
+},
   {
     id: 2,
-    name: 'Pluto',
-    url: 'https://storage.googleapis.com/pai-images/f180b0cd49c84f228948a7a6a7330e77.jpeg'
+    name: 'Conan',
+    url: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    voice: 'Microsoft David - English (United States)'
   },
   {
     id: 3,
     name: 'Jamie',
-    url: 'https://storage.googleapis.com/pai-images/c02e8c60c48643e6b38cb97e9e2f5b67.jpeg'
+    url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    voice: 'Microsoft Zira - English (United States)'
   },
   {
     id: 4,
-    name: 'Casey',
-    url: 'https://storage.googleapis.com/pai-images/3d2adba60b834d9b87a3a4eae9fc14e2.jpeg'
+    name: 'Pluto',
+    url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080',
+    voice: 'Microsoft Mark - English (United States)'
   },
 ]

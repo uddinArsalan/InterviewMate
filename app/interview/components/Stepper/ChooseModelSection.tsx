@@ -1,11 +1,12 @@
-'use client'
+'use client';
 import React, { useState } from "react";
-import { AvailableModelsTypes } from "@/app/interfaces";
+import { AvailableModelsTypes } from "@/interfaces";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { charatersData } from "@/data/Characters";
-import { ChevronLeft,ChevronRight } from "lucide-react";
+import { charactersData } from "@/data/Characters";
 import Image from "next/image";
+import { useApp } from "@/context/AppProvider";
+import { startInterviewAudio } from "@/lib/audioFunctions";
 import {
   Carousel,
   CarouselContent,
@@ -13,16 +14,18 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { useApp } from "@/app/context/AppProvider";
-import { useModel } from "@/app/context/ModelContextProvider";
+import { useModel } from "@/context/ModelContextProvider";
 
 const ChooseModelSection = () => {
   const [character, setCharacter] = useState<AvailableModelsTypes>("Pluto");
   const { setStep } = useModel();
-  const {toggleDomainSelectionDialogBox} = useApp();
+  const {updateCharacterVoice} = useApp();
   const handleCharacterSelection = () => {
+    const characterVoice = charactersData.find((characters) => characters.name == character)?.voice
+    console.log(characterVoice)
+    // if(characterVoice) startInterviewAudio(question,characterVoice);
+    if(characterVoice) updateCharacterVoice(characterVoice)
     setStep((prev) => ({ ...prev, isCharacterSelected: true }));
-    toggleDomainSelectionDialogBox();
   };
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col justify-center items-center p-8">
@@ -33,7 +36,7 @@ const ChooseModelSection = () => {
     <div className="w-full max-w-5xl">
       <Carousel className="w-full">
         <CarouselContent>
-          {charatersData.map(({ name, url, id }) => (
+          {charactersData.map(({ name, url, id }) => (
             <CarouselItem key={id} className="md:basis-1/2 lg:basis-1/3">
               <div className="p-3">
                 <Card 
@@ -47,8 +50,8 @@ const ChooseModelSection = () => {
                       <Image
                         alt={`ai_character-${id}`}
                         src={url}
-                        layout="fill"
-                        objectFit="contain"
+                        fill
+                        style={{objectFit : "contain"}}
                         className="rounded-md"
                         priority
                       />
@@ -67,7 +70,7 @@ const ChooseModelSection = () => {
     
     <div className="mt-12">
       <Button 
-        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-md transition-colors duration-300"
+        className="bg-blue-600 hover:bg-blue-700 text-lg text-white font-semibold py-6 px-8 rounded-xl transition-colors duration-300 "
         onClick={handleCharacterSelection}
       >
         Continue with {character || 'selected character'}

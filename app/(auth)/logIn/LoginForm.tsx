@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useSupbase } from "@/app/context/SupbaseProvider";
+import { useSupabase } from "@/context/SupabaseProvider";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -10,7 +10,7 @@ interface formType {
 }
 
 const LoginForm = () => {
-  const supabase = useSupbase();
+  const {supabase} = useSupabase();
   const [formData, setFormData] = useState<formType>({
     email: "",
     password: "",
@@ -18,7 +18,7 @@ const LoginForm = () => {
 
   const router = useRouter();
 
-  const logIn = async (e: any) => {
+  const logIn = async (e: React.FormEvent) => {
     console.log("Inside login");
     e.preventDefault();
     if (supabase) {

@@ -1,4 +1,12 @@
-export const CarouselData = [
+import { domainTypes } from "@/interfaces";
+
+interface CarouselDataType{
+    id : number;
+    domain : domainTypes;
+    image : string;
+}
+
+export const CarouselData : CarouselDataType[] = [
     {
         id: 1,
         domain: "Frontend Web Development",

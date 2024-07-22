@@ -23,8 +23,8 @@ export function useModel() {
 const ModelContextProvider = ({ children }: React.PropsWithChildren) => {
   const [step, setStep] = useState({
     isInterviewStarted: false,
-    isCharacterSelected: false,
     isDomainSelected: false,
+    isCharacterSelected: false,
   });
 
   const isAllStepsCompleted =

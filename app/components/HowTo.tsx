@@ -1,94 +1,122 @@
+import imgUrl from "../../public/undraw_interview_re_e5jn.svg";
 import React from "react";
+import Link from "next/link";
 import Image from "next/image";
-import img from "../../public/undraw_updated_resume_re_7r9j.svg";
-// import "../../styles/styles.css"
-import CarouselCard from "./CarouselCard";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  CheckCircle,
+  User,
+  Briefcase,
+  Bot,
+  FileText,
+  Repeat,
+} from "lucide-react";
 
 const HowTo = () => {
+  const steps = [
+    {
+      icon: <User className="w-8 h-8" />,
+      title: "Sign Up & Login",
+      description: "Create your account and log in to get started",
+    },
+    {
+      icon: <Briefcase className="w-8 h-8" />,
+      title: "Choose Your Domain",
+      description: "Select from various professional fields",
+    },
+    {
+      icon: <Bot className="w-8 h-8" />,
+      title: "Meet Your AI Interviewer",
+      description: "Interact with our 3D AI interviewer",
+    },
+    {
+      icon: <FileText className="w-8 h-8" />,
+      title: "Complete the Interview",
+      description: "Answer questions and showcase your skills",
+    },
+    {
+      icon: <CheckCircle className="w-8 h-8" />,
+      title: "Receive Feedback",
+      description: "Get detailed insights on your performance",
+    },
+    {
+      icon: <Repeat className="w-8 h-8" />,
+      title: "Practice More",
+      description: "Try different domains to broaden your skills",
+    },
+  ];
+
   return (
-    <div className="flex flex-col gap-12 p-8 lg:p-16  justify-center items-center w-full dark:bg-[#060606] rounded-tl-3xl">
-      <div className="md:text-6xl text-3xl text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-400 dark:from-white dark:to-gray-400 text-center font-extrabold">
-        Start Your Interview Journey with InterViewMate !
-      </div>
-      <div className="grid lg:grid-cols-2 gap-8 rounded-md p-8 place-content-center border-2 border-gray-600 bg-gray-900 dark:bg-inherit">
-        <Image
-          src={img}
-          alt="interview-illustration"
-          className="h-full text-blue-200"
-        />
-        <div className="flex justify-center items-center bg-green-200 dark:bg-blue-500 rounded-md hover:scale-105 transition-all p-8 md:p-12">
-          <ul className="flex flex-col gap-8 dark:text-white">
-            <li>
-              <div className="flex gap-2 items-center">
-              <i className="fa-solid fa-diamond cursor-pointer"></i>
-                <span className="font-semibold text-lg">Register & Log In</span>
-              </div>
-            </li>
-            <li>
-              <div className="flex gap-2 items-center">
-              <i className="fa-solid fa-diamond cursor-pointer"></i>
-                <span className="font-semibold text-lg">Choose Your Domain</span>
-              </div>
-            </li>
-            <li>
-              <div className="flex gap-2 items-center">
-              <i className="fa-solid fa-diamond cursor-pointer"></i>
-                <span className="font-semibold text-lg">Meet Your AI Interviewer</span>
-              </div>
-            </li>
-            {/* <li>
-              <div className="flex gap-2 items-center">
-              <i className="fa-solid fa-diamond cursor-pointer"></i>
-                <span className="font-semibold text-lg">problem solving</span>
-              </div>
-            </li> */}
-            <li>
-              <div className="flex gap-2 items-center">
-              <i className="fa-solid fa-diamond cursor-pointer"></i>
-                <span className="font-semibold text-lg">Schedule Mock Interviews</span>
-              </div>
-            </li>
-          </ul>
+    <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-12">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
+            Start Your Interview Journey
+          </span>
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16 ">
+          <p className="text-xl text-gray-700 dark:text-gray-300">
+            InterviewMate uses cutting-edge AI technology to provide a realistic
+            interview experience. Our 3D AI interviewer adapts to your
+            responses, creating a dynamic and challenging session tailored to
+            your chosen domain.
+          </p>
+          {/* <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white">
+              Get Started Now
+            </Button> */}
+          <div className="relative h-64 md:h-80">
+            <Image
+              src={imgUrl}
+              alt="AI Interview Illustration"
+              fill
+              style={{ objectFit: "contain" }}
+            />
+          </div>
+        </div>
+
+        <h3 className="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-white">
+          How It Works
+        </h3>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {steps.map((step, index) => (
+            <Card
+              key={index}
+              className="bg-white dark:bg-gray-800 hover:shadow-lg transition-shadow duration-300"
+            >
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="bg-purple-100 dark:bg-purple-900 p-3 rounded-full mr-4">
+                    {step.icon}
+                  </div>
+                  <h4 className="text-xl font-semibold text-gray-800 dark:text-white">
+                    {step.title}
+                  </h4>
+                </div>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {step.description}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <h3 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">
+            Ready to Excel in Your Interviews?
+          </h3>
+          <Link href="/signup">
+            <Button
+              size="lg"
+              className="bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              Start Practicing Now
+            </Button>
+          </Link>
         </div>
       </div>
-      <div className="md:text-6xl text-4xl text-center mt-12 font-bold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-purple-600 mb-8">CHOOSE YOUR DOMAIN</div>
-        <CarouselCard />
-        {/* <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2">
-          <Image
-            src="https://source.unsplash.com/300x300/?Software Development"
-            alt="avatar1"
-            width={300}
-            height={300}
-          />
-          <span className="text-3xl font-bold text-purple-500">Software Development</span>
-        </div>
-        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2">
-          <Image
-            src="https://source.unsplash.com/300x300/?Finance and Accounting"
-            alt="avatar2"
-            width={300}
-            height={300}
-          />
-          <span className="text-3xl text-purple-500 font-bold">Finance and Accounting</span>
-        </div>
-        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2">
-          <Image
-            src="https://source.unsplash.com/300x300/?Machine Learning"
-            alt="avatar3"
-            width={300}
-            height={300}
-          />
-          <span className="text-3xl text-purple-500 font-bold">Machine Learning</span>
-        </div>
-        <div className="flex flex-col gap-2 bg-[#0a0a0a] p-2">
-          <Image
-            src="https://source.unsplash.com/300x300/?"
-            alt="avatar4"
-            width={300}
-            height={300}
-          />
-          <span className="text-3xl text-purple-500 font-bold">MODEL-4</span>
-        </div> */}
     </div>
   );
 };

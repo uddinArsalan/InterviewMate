@@ -1,7 +1,7 @@
 "use client";
 import React,{useContext, useEffect} from "react";
 import { Button } from "@/components/ui/button";
-import { useModel } from "@/app/context/ModelContextProvider";
+import { useModel } from "@/context/ModelContextProvider";
 // import { SpeechProducer } from "@/app/utils/Speech";
 
 const StartInterView = () => {

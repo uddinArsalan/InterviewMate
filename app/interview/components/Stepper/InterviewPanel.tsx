@@ -1,14 +1,14 @@
 import React from "react";
 import UserMedia from "./(Media)/UserMedia";
 import { ArrowRight, Calendar, UserCheck, MessageCircle } from 'lucide-react';
-import { useModel } from "@/app/context/ModelContextProvider";
+import { useModel } from "@/context/ModelContextProvider";
+import { useApp } from "@/context/AppProvider";
 
 interface FeatureProps {
   Icon: React.ElementType;
   title: string;
   description: string;
 }
-
 
 const Feature: React.FC<FeatureProps> = ({ Icon, title, description }) => (
   <div className="flex items-start space-x-4">
@@ -25,8 +25,11 @@ const Feature: React.FC<FeatureProps> = ({ Icon, title, description }) => (
 const InterviewPanel = () => {
   const {step,setStep} = useModel();
   const { isInterviewStarted } = step;
+  const {toggleDomainSelectionDialogBox} = useApp();
   const handleStartInterview = () => {
-    setStep(prev => ({...prev,isInterviewStarted : !prev.isInterviewStarted}))
+    setStep(prev => ({...prev,isInterviewStarted : !prev.isInterviewStarted}));
+    toggleDomainSelectionDialogBox();
+
   }
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">

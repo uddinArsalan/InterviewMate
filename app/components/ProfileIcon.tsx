@@ -1,9 +1,9 @@
 "use client";
 import React,{useState} from "react";
-import { useApp } from "../context/AppProvider";
+import { useApp } from "../../context/AppProvider";
 import Image from "next/image";
-import { useSupbase } from "../context/SupbaseProvider";
-import { Button } from "@/components/ui/button";
+import { useSupabase } from "../../context/SupabaseProvider";
+import { getUserQuestions } from "@/lib/db/";
 import toast from "react-hot-toast";
 import {
   DropdownMenu,
@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 const DropDown : React.FC<React.PropsWithChildren> = ({children} ) => {
-  const supabase = useSupbase();
+  const {supabase} = useSupabase();
   async function logOut() {
     if (supabase) {
       const { error } = await supabase.auth.signOut();
@@ -29,6 +29,11 @@ const DropDown : React.FC<React.PropsWithChildren> = ({children} ) => {
         toast.error(error.message)
       }
     }
+  }
+
+  async function handleQuestions(){
+   const userQuestions = await getUserQuestions(9);
+   console.log(userQuestions)
   }
   return (
     <DropdownMenu>
@@ -44,7 +49,7 @@ const DropDown : React.FC<React.PropsWithChildren> = ({children} ) => {
           <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuGroup>
-      <DropdownMenuItem>Support</DropdownMenuItem>
+      <DropdownMenuItem onClick={handleQuestions}>Support</DropdownMenuItem>
       <DropdownMenuSeparator />
       <DropdownMenuItem>
         Log out
@@ -63,6 +68,8 @@ const ProfileIcon = () => {
     .split(" ")
     .map((name) => name.charAt(0))
     .join("");
+
+    // console.log(currentUser?.aud);
 
   return (
     <DropDown >

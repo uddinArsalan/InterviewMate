@@ -1,31 +1,31 @@
 "use client";
 import React from "react";
 // import DomainDialog from "./Stepper/(dialog)/DomainDialog";
-import StartInterView from "../components/StartInterView";
+// import StartInterView from "../components/StartInterView";
 import SolutionTabs from "./SolutionTabs"
 
 const InterviewPreparationPanel = () => {
-  async function testInsertQuestions() {
-    try {
-      const insertResponse = await fetch('http://localhost:3000/api/insert-questions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          domainValue: 'Frontend Web Development',
-          questions_text: 'Hello there testing '
-        })
-      });
+  // async function testInsertQuestions() {
+  //   try {
+  //     const insertResponse = await fetch('http://localhost:3000/api/insert-questions', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({
+  //         domainValue: 'Frontend Web Development',
+  //         questions_text: 'Hello there testing '
+  //       })
+  //     });
   
-      if (!insertResponse.ok) {
-        throw new Error(`HTTP error! status: ${insertResponse.status}`);
-      }
+  //     if (!insertResponse.ok) {
+  //       throw new Error(`HTTP error! status: ${insertResponse.status}`);
+  //     }
   
-      const result = await insertResponse.json();
-      console.log('Insert questions result:', result);
-    } catch (error) {
-      console.error('Error in test:', error);
-    }
-  }
+  //     const result = await insertResponse.json();
+  //     console.log('Insert questions result:', result);
+  //   } catch (error) {
+  //     console.error('Error in test:', error);
+  //   }
+  // }
   
   return (
     <>
@@ -41,7 +41,7 @@ const InterviewPreparationPanel = () => {
           Give access to your microphone and web camera
         </div>
         <div className="flex gap-2 cursor-pointer text-green-700">
-          <i className="fa-solid fa-microphone" onClick={testInsertQuestions}></i>
+          <i className="fa-solid fa-microphone" ></i>
           <i className="fa-solid fa-video"></i>
         </div>
         {/* <DomainDialog /> */}
