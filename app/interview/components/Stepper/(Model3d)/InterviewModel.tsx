@@ -1,47 +1,48 @@
 import React, { useRef, useEffect, useState } from "react";
-import { loadModel } from "@/utils/loadModel";
+// import { loadModel } from "@/utils/loadModel";
 import UserMedia from "../(Media)/UserMedia";
+import Avatar3D from "./Avatar3D";
 import {
   ArrowsPointingOutIcon,
   ArrowsPointingInIcon,
 } from "@heroicons/react/24/solid";
 import { useApp } from "@/context/AppProvider";
-import { useInterviewAudio } from "./hooks/useInterviewAudio";
+import { useInterviewAudio } from "../../../../../hooks/useInterviewAudio";
 import InterviewControls from "./InterviewControls";
 import toast from "react-hot-toast";
 
 const InterviewModel = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  // const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const { initInterviewAudio } = useInterviewAudio();
   const { startLoader, completeLoader, questionIds } = useApp();
 
+  // useEffect(() => {
+  //   const loaderId = startLoader();
+  //   if (containerRef.current) {
+  //     const { domElement, animate, handleResize, cleanup } =
+  //       loadModel(containerRef);
+  //     containerRef.current.appendChild(domElement);
+
+  //     animate();
+  //     handleResize();
+  //     window.addEventListener("resize", handleResize);
+  //     completeLoader(loaderId);
+
+  //     return () => {
+  //       cleanup();
+  //       if (
+  //         containerRef.current &&
+  //         domElement.parentNode === containerRef.current
+  //       ) {
+  //         containerRef.current.removeChild(domElement);
+  //       }
+  //     };
+  //   }
+  // }, []);
+
   useEffect(() => {
-    const loaderId = startLoader();
-    if (containerRef.current) {
-      const { domElement, animate, handleResize, cleanup } =
-        loadModel(containerRef);
-      containerRef.current.appendChild(domElement);
-
-      animate();
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      completeLoader(loaderId);
-
-      return () => {
-        cleanup();
-        if (
-          containerRef.current &&
-          domElement.parentNode === containerRef.current
-        ) {
-          containerRef.current.removeChild(domElement);
-        }
-      };
-    }
-  }, []);
-
-  useEffect(() => {
-    if (containerRef.current) {
+    // if (containerRef.current) {
       initInterviewAudio()
         .then(() => {
           console.log("Interview Audio Started");
@@ -51,7 +52,7 @@ const InterviewModel = () => {
           console.log(err);
           toast.error("Error in loading audio");
         });
-    }
+    // }
   }, [questionIds]);
 
   const toggleFullscreen = () => {
@@ -67,7 +68,8 @@ const InterviewModel = () => {
             isFullscreen ? "w-full" : "w-2/3"
           } bg-white dark:bg-gray-800 shadow-lg rounded-lg m-4 overflow-hidden`}
         >
-          <div ref={containerRef} className="w-full h-full" />
+          {/* <div ref={containerRef} className="w-full h-full" /> */}
+          <Avatar3D />
           <button
             onClick={toggleFullscreen}
             className="absolute top-4 right-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"

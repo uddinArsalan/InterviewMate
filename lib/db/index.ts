@@ -44,21 +44,21 @@ export async function getDomainId(domainName: domainTypes): Promise<number> {
 
     if (error) throw error;
 
-    console.log(
-      "Retrieved domain ID for domain name:",
-      domainName,
-      ":",
-      data.domain_id
-    );
+    // console.log(
+    //   "Retrieved domain ID for domain name:",
+    //   domainName,
+    //   ":",
+    //   data.domain_id
+    // );
 
     return data.domain_id as number;
   } catch (err) {
-    console.error(
-      "Error retrieving domain ID for domain name:",
-      domainName,
-      ":",
-      err
-    );
+    // console.error(
+    //   "Error retrieving domain ID for domain name:",
+    //   domainName,
+    //   ":",
+    //   err
+    // );
     throw err;
   }
 }
@@ -153,35 +153,36 @@ export async function startInterviewSession(
   domainName: domainTypes
 ): Promise<number> {
   try {
-    console.log(
-      "Starting interview session for user:",
-      user.id,
-      "in domain:",
-      domainName
-    );
+    // console.log(
+    //   "Starting interview session for user:",
+    //   user.id,
+    //   "in domain:",
+    //   domainName
+    // );
 
     const domainId = await getDomainId(domainName);
-    console.log("Retrieved domain ID:", domainId);
+    // console.log("Retrieved domain ID:", domainId);
 
     const { data: userId, error: userIdError } = await supabase.rpc(
       "uuid_to_bigint",
       { uuid: user.id }
     );
+
     if (userIdError) throw userIdError;
     if (!userId || isNaN(userId)) {
       throw new Error(`Invalid userId returned by uuid_to_bigint: ${userId}`);
     }
-    console.log("Converted user ID to bigint:", userId);
+    // console.log("Converted user ID to bigint:", userId);
 
     await supabase.rpc("set_app_user_id", { p_user_id: userId });
-    console.log("Set application user ID:", userId);
+    // console.log("Set application user ID:", userId);
 
     const insertData = {
       domain_id: domainId,
       user_id: userId,
       start_time: formatDate(new Date()),
     };
-    console.log("Prepared insert data:", insertData);
+    // console.log("Prepared insert data:", insertData);
 
     const { data, error: interviewError } = await supabase
       .from("interviews")
@@ -191,7 +192,7 @@ export async function startInterviewSession(
 
     if (interviewError) throw interviewError;
 
-    console.log("Inserted interview record:", data);
+    // console.log("Inserted interview record:", data);
 
     return data?.id;
   } catch (err) {
@@ -199,7 +200,7 @@ export async function startInterviewSession(
     throw err;
   } finally {
     await supabase.rpc("clear_app_user_id");
-    console.log("Cleared application user ID");
+    // console.log("Cleared application user ID");
   }
 }
 
@@ -241,7 +242,7 @@ export async function stopInterviewSession(interviewId: number) {
   try {
     const { data, error } = await supabase
       .from("interviews")
-      .insert([{ end_time: formatDate(new Date()) }])
+      .update({ end_time: formatDate(new Date()) })
       .eq("id", interviewId);
     console.log("Interview Session Completed ", data);
     if (error) throw error;

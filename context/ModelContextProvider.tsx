@@ -8,9 +8,9 @@ interface ContextType {
 }
 export const ModelContext = createContext<ContextType>({
   step: {
-    isInterviewStarted: false,
-    isCharacterSelected: false,
-    isDomainSelected: false,
+    isInterviewStarted: true,
+    isCharacterSelected: true,
+    isDomainSelected: true,
   },
   setStep: () => {},
   isAllStepsCompleted: false,

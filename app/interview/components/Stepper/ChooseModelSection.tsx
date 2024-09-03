@@ -21,9 +21,9 @@ const ChooseModelSection = () => {
   const { updateCharacterVoice } = useApp();
   const handleCharacterSelection = () => {
     const characterVoice = charactersData.find(
-      (characters) => characters.name == character
+      (characters) => characters.name.trim() == character
     )?.voice;
-    console.log(characterVoice);
+    console.log("Character Voice " + characterVoice);
     if (characterVoice) updateCharacterVoice(characterVoice);
     setStep((prev) => ({ ...prev, isCharacterSelected: true }));
   };

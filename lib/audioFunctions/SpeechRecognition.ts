@@ -12,6 +12,7 @@ function startSpeechRecognition(): Promise<string> {
   
     recognition.continuous = true; 
     recognition.interimResults = true;
+    recognition.lang = "en-IN"
   
     recognition.onaudiostart = () => {
       console.log("Audio capturing started");

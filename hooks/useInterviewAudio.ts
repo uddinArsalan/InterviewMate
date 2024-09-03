@@ -46,47 +46,52 @@ export const useInterviewAudio = () => {
         console.error("User or interview session not initialized");
         return;
       }
-  
-      const latestQuestionIdToAskToUser = questionIds[questionIds.length - 1];
-      
-      try {
-        const question = await getUserQuestions(currentUser, latestQuestionIdToAskToUser);
-        if (!question) {
-          console.error("No question available");
-          return;
-        }
-  
-        const userAnswer = await startInterviewAudio(question, characterVoice);
-        if (!userAnswer) {
-          console.error("No user answer received");
-          return;
-        }
-  
-        await storeUserAnswers(
-          currentUser,
-          interviewSessionId,
-          latestQuestionIdToAskToUser,
-          userAnswer
-        );
-  
-        const nextQuestion = await generateQuestions(
-          interviewSessionId,
-          userAnswer,
-          currentQuestionNumber
-        );
-  
-        if (nextQuestion) {
-          const questionId: number = await storeUserQuestions(
+    
+      const askQuestion = async (questionId: number) => {
+        try {
+          const question = await getUserQuestions(currentUser, questionId);
+          if (!question) {
+            console.error("No question available");
+            return;
+          }
+    
+          const userAnswer = await startInterviewAudio(question, characterVoice);
+          if (!userAnswer) {
+            console.error("No user answer received");
+            return;
+          }
+    
+          await storeUserAnswers(
             currentUser,
             interviewSessionId,
-            nextQuestion
+            questionId,
+            userAnswer
           );
-          updateQuestionIdArray(questionId);
-          setCurrentQuestionNumber((prev) => prev + 1);
+    
+          const nextQuestion = await generateQuestions(
+            interviewSessionId,
+            userAnswer,
+            currentQuestionNumber
+          );
+    
+          if (nextQuestion) {
+            const nextQuestionId: number = await storeUserQuestions(
+              currentUser,
+              interviewSessionId,
+              nextQuestion
+            );
+            updateQuestionIdArray(nextQuestionId);
+            setCurrentQuestionNumber((prev) => prev + 1);
+            
+            await askQuestion(nextQuestionId);
+          }
+        } catch (error) {
+          console.error("Error in interview process:", error);
         }
-      } catch (error) {
-        console.error("Error in interview process:", error);
-      }
+      };
+    
+      const latestQuestionIdToAskToUser = questionIds[questionIds.length - 1];
+      await askQuestion(latestQuestionIdToAskToUser);
     }, [
       currentUser, 
       interviewSessionId, 

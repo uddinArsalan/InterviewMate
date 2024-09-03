@@ -5,7 +5,7 @@ import Testimonials from "./components/Testimonials";
 import Pay from "./components/Pay";
 import LastSection from "./components/LastSection";
 
-export default async function Home() {
+export default function Home() {
   return (
     <main>
       <Navbar />

@@ -28,5 +28,6 @@ export function formatDate(timestamp: Date) {
   const offsetHours = String(Math.floor(Math.abs(offset) / 60)).padStart(2, '0');
   const offsetMinutes = String(Math.abs(offset) % 60).padStart(2, '0');
 
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}${sign}${offsetHours}:${offsetMinutes}`;
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}${sign}${offsetHours}:${offsetMinutes}`;
+
 }

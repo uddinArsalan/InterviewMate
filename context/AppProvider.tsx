@@ -41,7 +41,7 @@ const AppContext = createContext<AppInterface>({
   updateDomainValue : console.log,
   interviewSessionId : 0,
   updateInterviewSessionId : console.log,
-  characterVoice : "Microsoft David - English (United States)",
+  characterVoice : "",
   updateCharacterVoice : console.log,
   questionIds : [],
   updateQuestionIdArray : console.log,

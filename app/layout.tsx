@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import SupabaseProvider from "../context/SupabaseProvider";
 import { Analytics } from '@vercel/analytics/react';
 import AppProvider from "../context/AppProvider";
-import ModelContextProvider from "../context/ModelContextProvider";
 
 import "./globals.css";
 
