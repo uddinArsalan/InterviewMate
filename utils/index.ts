@@ -7,14 +7,6 @@ export function uuidv4() {
   );
 }
 
-// export function formatDate(timestamp: Date) {
-//   const formattedTimestamp = timestamp
-//     .toISOString()
-//     .slice(0, 19)
-//     .replace("T", " ");
-//   return formattedTimestamp;
-// }
-
 export function formatDate(timestamp: Date) {
   const year = timestamp.getFullYear();
   const month = String(timestamp.getMonth() + 1).padStart(2, '0');

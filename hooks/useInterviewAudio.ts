@@ -13,6 +13,7 @@ export const useInterviewAudio = () => {
       currentUser,
       interviewSessionId,
       domainValue,
+      currentUserId,
       updateQuestionIdArray,
     } = useApp();
   
@@ -49,7 +50,7 @@ export const useInterviewAudio = () => {
     
       const askQuestion = async (questionId: number) => {
         try {
-          const question = await getUserQuestions(currentUser, questionId);
+          const question = await getUserQuestions(questionId);
           if (!question) {
             console.error("No question available");
             return;
@@ -62,7 +63,6 @@ export const useInterviewAudio = () => {
           }
     
           await storeUserAnswers(
-            currentUser,
             interviewSessionId,
             questionId,
             userAnswer
@@ -76,7 +76,7 @@ export const useInterviewAudio = () => {
     
           if (nextQuestion) {
             const nextQuestionId: number = await storeUserQuestions(
-              currentUser,
+              currentUserId,
               interviewSessionId,
               nextQuestion
             );
@@ -94,6 +94,7 @@ export const useInterviewAudio = () => {
       await askQuestion(latestQuestionIdToAskToUser);
     }, [
       currentUser, 
+      currentUserId,
       interviewSessionId, 
       questionIds, 
       characterVoice, 

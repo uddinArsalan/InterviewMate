@@ -26,6 +26,7 @@ interface QuestionData {
 const DomainDialog = () => {
   const {
     currentUser,
+    currentUserId,
     openDomainDialog,
     toggleDomainSelectionDialogBox,
     closeDialogBox,
@@ -67,7 +68,7 @@ const DomainDialog = () => {
       const question = await generateQuestions(interviewId);
       if (currentUser && question && question !== undefined) {
         const questionId: number = await storeUserQuestions(
-          currentUser,
+          currentUserId,
           interviewId,
           question
         );
@@ -101,7 +102,7 @@ const DomainDialog = () => {
       }
       // console.log(interviewSessionId);
       if(interviewSessionId === 0){
-        interviewId = await startInterviewSession(currentUser, domainValue);
+        interviewId = await startInterviewSession(currentUserId, domainValue);
         console.log(interviewId);
         console.log(`Interview started with ID: ${interviewId}`);
         if(interviewId){

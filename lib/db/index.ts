@@ -1,10 +1,8 @@
-// import { createClient} from "@supabase/supabase-js";
 import { domainTypes } from "@/interfaces";
 import { createBrowserClient } from "@supabase/ssr";
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 import { formatDate } from "@/utils";
-import { User } from "@supabase/supabase-js";
 
 const supabase = createBrowserClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -14,7 +12,14 @@ export async function getCurrentUser() {
     error,
   } = await supabase.auth.getUser();
   if (error) throw error;
-  return user;
+  if (!user) return { user: null, userId: undefined };
+  const { data: userId, error: userIdError } = await supabase.rpc(
+    "uuid_to_bigint",
+    { uuid: user.id }
+  );
+  if (userIdError) throw userIdError;
+  await supabase.rpc("set_app_user_id", { p_user_id: userId });
+  return { user, userId };
 }
 
 export async function getExistingUser(userId: number) {
@@ -44,53 +49,18 @@ export async function getDomainId(domainName: domainTypes): Promise<number> {
 
     if (error) throw error;
 
-    // console.log(
-    //   "Retrieved domain ID for domain name:",
-    //   domainName,
-    //   ":",
-    //   data.domain_id
-    // );
-
     return data.domain_id as number;
   } catch (err) {
-    // console.error(
-    //   "Error retrieving domain ID for domain name:",
-    //   domainName,
-    //   ":",
-    //   err
-    // );
     throw err;
   }
 }
 
-export async function getUserQuestions(user: User, questionId: number) {
+export async function getUserQuestions(questionId: number) {
   try {
-    if (!user) {
-      console.log("No current user found");
-      return null;
-    }
-
-    const { data: userId, error: userIdError } = await supabase.rpc(
-      "uuid_to_bigint",
-      { uuid: user.id }
-    );
-
-    if (userIdError) {
-      // console.error("Error converting UUID to bigint:", userIdError);
-      throw userIdError;
-    }
-
-    // console.log("user_id:", userId, "questionId:", questionId);
-
-    await supabase.rpc("set_app_user_id", { p_user_id: userId });
-
     const { data: questions, error } = await supabase
       .from("questions")
       .select("*")
       .eq("question_id", questionId);
-
-    // console.log("Supabase response status:", status, statusText);
-    // console.log("Raw response data:", questions);
 
     if (error) {
       console.error("Supabase error:", error);
@@ -102,30 +72,25 @@ export async function getUserQuestions(user: User, questionId: number) {
       return null;
     }
 
-    // console.log("Fetched question:", questions[0]);
     return questions[0].question_text;
   } catch (error) {
     console.error("Error getting user questions data:", error);
     throw error;
-  } finally {
-    await supabase.rpc("clear_app_user_id");
   }
+  // finally {
+  //   await supabase.rpc("clear_app_user_id");
+  // }
 }
 
 export async function storeUserQuestions(
-  user: User,
+  userId: number | undefined,
   interviewId: number,
   question: string
 ): Promise<number> {
   try {
-    const { data: userId, error: userIdError } = await supabase.rpc(
-      "uuid_to_bigint",
-      { uuid: user.id }
-    );
-    if (userIdError) throw userIdError;
-
-    await supabase.rpc("set_app_user_id", { p_user_id: userId });
-
+    if (!userId) {
+      console.log("UserId not defined");
+    }
     const { data, error } = await supabase
       .from("questions")
       .insert([
@@ -143,46 +108,27 @@ export async function storeUserQuestions(
   } catch (error) {
     console.error("Error inserting user data:", error);
     throw error;
-  } finally {
-    await supabase.rpc("clear_app_user_id");
   }
+  // finally {
+  //   await supabase.rpc("clear_app_user_id");
+  // }
 }
 
 export async function startInterviewSession(
-  user: User,
+  userId: number | undefined,
   domainName: domainTypes
 ): Promise<number> {
   try {
-    // console.log(
-    //   "Starting interview session for user:",
-    //   user.id,
-    //   "in domain:",
-    //   domainName
-    // );
-
-    const domainId = await getDomainId(domainName);
-    // console.log("Retrieved domain ID:", domainId);
-
-    const { data: userId, error: userIdError } = await supabase.rpc(
-      "uuid_to_bigint",
-      { uuid: user.id }
-    );
-
-    if (userIdError) throw userIdError;
-    if (!userId || isNaN(userId)) {
-      throw new Error(`Invalid userId returned by uuid_to_bigint: ${userId}`);
+    if (!userId) {
+      console.log("UserId not defined");
     }
-    // console.log("Converted user ID to bigint:", userId);
-
-    await supabase.rpc("set_app_user_id", { p_user_id: userId });
-    // console.log("Set application user ID:", userId);
+    const domainId = await getDomainId(domainName);
 
     const insertData = {
       domain_id: domainId,
       user_id: userId,
       start_time: formatDate(new Date()),
     };
-    // console.log("Prepared insert data:", insertData);
 
     const { data, error: interviewError } = await supabase
       .from("interviews")
@@ -192,33 +138,19 @@ export async function startInterviewSession(
 
     if (interviewError) throw interviewError;
 
-    // console.log("Inserted interview record:", data);
-
     return data?.id;
   } catch (err) {
     console.error("Error inserting user data:", err);
     throw err;
-  } finally {
-    await supabase.rpc("clear_app_user_id");
-    // console.log("Cleared application user ID");
   }
 }
 
 export async function storeUserAnswers(
-  user: User,
   interviewId: number,
   questionId: number,
   asnswerText: string
 ) {
   try {
-    const { data: userId, error: userIdError } = await supabase.rpc(
-      "uuid_to_bigint",
-      { uuid: user.id }
-    );
-    if (userIdError) throw userIdError;
-
-    await supabase.rpc("set_app_user_id", { p_user_id: userId });
-
     const { data, error } = await supabase.from("answers").insert([
       {
         interview_id: interviewId,
@@ -233,8 +165,6 @@ export async function storeUserAnswers(
   } catch (error) {
     console.error("Error inserting user data:", error);
     throw error;
-  } finally {
-    await supabase.rpc("clear_app_user_id");
   }
 }
 
@@ -249,4 +179,22 @@ export async function stopInterviewSession(interviewId: number) {
   } catch (error) {
     console.log("Error updating end time", error);
   }
+}
+
+export async function getUserInterviewQuestions(interviewId: number) {
+  const { data: userQuestions, error } = await supabase
+    .from("questions")
+    .select("question_id, question_text")
+    .eq("interview_id", interviewId);
+  if (error) throw error;
+  return userQuestions;
+}
+
+export async function getUserInterviewAnswers(interviewId: number) {
+  const { data: userAnswers, error: answersError } = await supabase
+    .from("answers")
+    .select("question_id, answer_text")
+    .eq("interview_id", interviewId);
+    if(answersError) throw answersError;
+    return userAnswers;
 }

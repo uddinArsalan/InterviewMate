@@ -2,7 +2,7 @@ import { User } from "@supabase/supabase-js";
 import { CohereClient, CohereTimeoutError, CohereError } from "cohere-ai";
 import { NextRequest, NextResponse } from "next/server";
 
-const API_KEY = process.env.TRIAL_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_TRIAL_KEY;
 
 interface RequestType {
   domain: string;
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       message: message,
       conversationId: interviewId + "",
       preamble: `You are an expert interviewer in the field of ${domain}. Your goal is to assess the candidate's skills and experience through a natural, conversational interview.`,
-      
+    
     });
 
     console.log("Generated response from Cohere AI:", response.text);
