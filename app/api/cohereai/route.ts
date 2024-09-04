@@ -2,7 +2,7 @@ import { User } from "@supabase/supabase-js";
 import { CohereClient, CohereTimeoutError, CohereError } from "cohere-ai";
 import { NextRequest, NextResponse } from "next/server";
 
-const API_KEY = process.env.NEXT_PUBLIC_TRIAL_KEY;
+const API_KEY = process.env.TRIAL_KEY;
 
 interface RequestType {
   domain: string;
