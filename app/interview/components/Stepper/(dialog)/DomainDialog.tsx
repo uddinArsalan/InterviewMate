@@ -5,7 +5,6 @@ import { useModel } from "@/context/ModelContextProvider";
 import { startInterviewSession, storeUserQuestions } from "@/lib/db";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -40,27 +39,40 @@ const DomainDialog = () => {
   const { setStep } = useModel();
 
   const generateQuestions = async (interviewId: number): Promise<string> => {
-    const res = await fetch(`/api/cohereai`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        domain: domainValue,
-        user: currentUser,
-        interviewId,
-      }),
-    });
-    if (!res.ok) {
-      setStep((prevSteps) => ({ ...prevSteps, isInterviewStarted: false }));
-      throw new Error("Failed to generate questions");
+    try {
+      const res = await toast.promise(
+        fetch(`/api/cohereai`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            domain: domainValue,
+            user: currentUser,
+            interviewId,
+          }),
+        }),
+        {
+          loading: "Generating question...",
+          success: "Question generated successfully 👌",
+          error: "Failed to generate question 🤯",
+        }
+      );
+  
+      if (!res.ok) {
+        setStep((prevSteps) => ({ ...prevSteps, isInterviewStarted: false }));
+        throw new Error("Failed to generate questions");
+      }
+  
+      const { question, questionNumber }: QuestionData = await res.json();
+      console.log(question, questionNumber);
+      return question;
+    } catch (error) {
+      console.error("Error in generateQuestions:", error);
+      throw error; 
     }
-    console.log(res);
-    const { question, questionNumber }: QuestionData = await res.json();
-    // console.log(question, questionNumber);
-    return question;
   };
-
+  
   const handleQuestion = async (interviewId: number) => {
     const loaderId = startLoader();
 
@@ -96,11 +108,10 @@ const DomainDialog = () => {
     const loaderId = startLoader();
     let interviewId : number;
     try {
-      if (!currentUser) {
+      if (!currentUser || !currentUserId) {
         toast.error("Please Signup First");
         return;
       }
-      // console.log(interviewSessionId);
       if(interviewSessionId === 0){
         interviewId = await startInterviewSession(currentUserId, domainValue);
         console.log(interviewId);
@@ -116,6 +127,7 @@ const DomainDialog = () => {
       } 
     } catch (error) {
       console.error("Error starting interview session:", error);
+      setStep((prev) => ({ ...prev, isDomainSelected: false }));
     } finally {
       completeLoader(loaderId);
     }

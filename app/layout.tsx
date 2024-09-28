@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import SupabaseProvider from "../context/SupabaseProvider";
 import { Analytics } from '@vercel/analytics/react';
 import AppProvider from "../context/AppProvider";
-
+import Navbar from "./components/Navbar";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,6 +32,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+          <Navbar />
             {children}
             <Analytics />
           </ThemeProvider>

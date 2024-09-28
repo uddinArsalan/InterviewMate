@@ -26,3 +26,20 @@ export interface stepsType {
   isCharacterSelected: boolean;
   isDomainSelected: boolean;
 }
+
+export interface QuestionsDataType {
+  question_id: string;
+  question_text: string;
+}
+export interface AnswersDataType {
+  question_id: string;
+  answer_text: string;
+}
+
+export interface UserInterviewsDataType {
+  domain_id: number | null;
+  end_time: string | null;
+  id: number;
+  start_time: string | null;
+  user_id: string | null;
+}

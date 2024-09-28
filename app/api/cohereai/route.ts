@@ -14,31 +14,27 @@ interface RequestType {
 
 export async function POST(req: NextRequest) {
   if (!API_KEY) {
-    return NextResponse.json({ error: "API_KEY not found" }, { status: 400 });
+    return NextResponse.json(
+      { status: "error", message: "API_KEY not found" },
+      { status: 400 }
+    );
   }
 
   const cohere = new CohereClient({
     token: API_KEY,
   });
 
-  const {
-    domain,
-    user,
-    interviewId,
-    userResponse,
-    currentQuestionNumber,
-  }: RequestType = await req.json();
-
-  if (!user) {
-    return NextResponse.json(
-      { error: "User not found, please SignUp or login first" },
-      { status: 400 }
-    );
-  }
-
   try {
-    let message: string;
+    const { domain, user, interviewId, userResponse, currentQuestionNumber }: RequestType = await req.json();
 
+    if (!user) {
+      return NextResponse.json(
+        { status: "error", message: "User not found, please SignUp or login first" },
+        { status: 400 }
+      );
+    }
+
+    let message: string;
     if (!currentQuestionNumber || currentQuestionNumber === 0) {
       message = `
         You are an AI interviewer conducting an interview for a ${domain} position. 
@@ -61,32 +57,43 @@ export async function POST(req: NextRequest) {
     }
 
     const response = await cohere.chat({
-      message: message,
+      message,
       conversationId: interviewId + "",
       preamble: `You are an expert interviewer in the field of ${domain}. Your goal is to assess the candidate's skills and experience through a natural, conversational interview.`,
-    
     });
 
     console.log("Generated response from Cohere AI:", response.text);
 
     return NextResponse.json(
       {
-        question: response.text,
-        questionNumber: (currentQuestionNumber || 0) + 1,
+        status: "success",
+        message: "Question generated successfully",
+        data: {
+          question: response.text,
+          questionNumber: (currentQuestionNumber || 0) + 1,
+        },
       },
       { status: 200 }
     );
   } catch (error) {
     console.error("Error generating data:", error);
+
     if (error instanceof CohereTimeoutError) {
       console.log("Request timed out", error);
+      return NextResponse.json(
+        { status: "error", message: "Request timed out, please try again later." },
+        { status: 504 }
+      );
     } else if (error instanceof CohereError) {
-      console.log(error.statusCode);
-      console.log(error.message);
-      console.log(error.body);
+      console.log(`Cohere Error: ${error.statusCode}, ${error.message}`);
+      return NextResponse.json(
+        { status: "error", message: "Cohere API error, please try again later." },
+        { status: error.statusCode || 500 }
+      );
     }
+
     return NextResponse.json(
-      { error: "Failed to generate data" },
+      { status: "error", message: "Failed to generate data" },
       { status: 500 }
     );
   }

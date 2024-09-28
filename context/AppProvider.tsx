@@ -5,13 +5,12 @@ import { formatDate, uuidv4 } from "../utils";
 import Loader from "../app/Loading/Loader";
 import { Toaster, toast } from "react-hot-toast";
 import { getExistingUser, getCurrentUser } from "@/lib/db";
-
 import { useSupabase } from "./SupabaseProvider";
 import { domainTypes } from "@/interfaces";
 
 interface AppInterface {
   currentUser: User | null;
-  currentUserId : number | undefined;
+  currentUserId : string | undefined;
   openDomainDialog: boolean;
   startLoader: () => string;
   completeLoader: (processId: string) => void;
@@ -61,7 +60,7 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
   const [openDomainDialog, setOpenDomainDialogBox] = useState<boolean>(false);
   const [loadingProcesses, setLoadingProcesses] = useState<string[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [currentUserId, setCurrentUserId] = useState<number>();
+  const [currentUserId, setCurrentUserId] = useState<string>();
   const [domainValue, setDomainValue] = useState<domainTypes>(
     "Frontend Web Development"
   );
@@ -122,7 +121,7 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
     return { user : null, userId : 0}
   }
 
-  async function insertUserData(user: User, userId: number) {
+  async function insertUserData(user: User, userId: string) {
     if (!supabase || !user) return;
 
     const loaderId = startNewLoadingProcess();

@@ -8,7 +8,6 @@ import LastSection from "./components/LastSection";
 export default function Home() {
   return (
     <main>
-      <Navbar />
       <HeroSection />
       <HowTo />
       <Testimonials />

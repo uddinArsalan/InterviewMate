@@ -71,7 +71,10 @@ export default function Avatar3D() {
       <Avatar
         modelSrc={avatarUrl}
         halfBody
-        animationSrc={"https://models.readyplayer.me/animations/talking.glb"}
+        // animations={}
+        // headMovement
+        activeAnimation=""
+        // animationSrc={"https://models.readyplayer.me/animations/talking.glb"}
       />
     </>
   );
