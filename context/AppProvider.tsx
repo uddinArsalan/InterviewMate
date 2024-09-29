@@ -28,6 +28,7 @@ interface AppInterface {
   isVideoOn: boolean;
   toggleAudio: () => void;
   toggleVideo: () => void;
+  logOut: () => Promise<void>;
 }
 
 const AppContext = createContext<AppInterface>({
@@ -50,6 +51,7 @@ const AppContext = createContext<AppInterface>({
   isVideoOn: false,
   toggleAudio: () => {},
   toggleVideo: () => {},
+  logOut:  () => Promise.resolve(),
 });
 
 export function useApp() {
@@ -188,6 +190,26 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
     });
   }
 
+  async function logOut() {
+    if (supabase) {
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error; 
+  
+        setCurrentUser(null);
+        setCurrentUserId(undefined);
+        setInterviewSessionId(0);
+        setCharacterVoice("");
+        
+        console.log("User successfully signed out.");
+      } catch (err) {
+        console.error("Error signing out:", err);
+        toast.error("Error signing out User")
+      }
+    }
+  }
+  
+
   return (
     <AppContext.Provider
       value={{
@@ -210,6 +232,7 @@ export default function AppProvider({ children }: React.PropsWithChildren) {
         isVideoOn,
         toggleAudio,
         toggleVideo,
+        logOut
       }}
     >
       {children}

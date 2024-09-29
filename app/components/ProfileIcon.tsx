@@ -2,9 +2,6 @@
 import React from "react";
 import { useApp } from "../../context/AppProvider";
 import Image from "next/image";
-import { useSupabase } from "../../context/SupabaseProvider";
-import { getUserQuestions } from "@/lib/db/";
-import toast from "react-hot-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,23 +11,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 const DropDown : React.FC<React.PropsWithChildren> = ({children} ) => {
-  const {supabase} = useSupabase();
-  async function logOut() {
-    if (supabase) {
-      const { error } = await supabase.auth.signOut();
-      if(error){
-        toast.error(error.message)
-      }
-    }
-  }
+   const { logOut } = useApp();
 
   return (
     <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <div onClick={logOut} className="cursor-pointer">{children}</div>
+      {children}
     </DropdownMenuTrigger>
     <DropdownMenuContent className="w-56">
       <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -43,7 +32,7 @@ const DropDown : React.FC<React.PropsWithChildren> = ({children} ) => {
       </DropdownMenuGroup>
       <DropdownMenuItem>Support</DropdownMenuItem>
       <DropdownMenuSeparator />
-      <DropdownMenuItem>
+      <DropdownMenuItem onClick={logOut}>
         Log out
         <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
       </DropdownMenuItem>
@@ -61,7 +50,6 @@ const ProfileIcon = () => {
     .map((name) => name.charAt(0))
     .join("");
 
-    // console.log(currentUser?.aud);
 
   return (
     <DropDown >
@@ -83,14 +71,6 @@ const ProfileIcon = () => {
           {initials}
         </div>
       )}
-      {/* {openDropdown && (
-        <div
-          className="p-8 flex justify-center items-center font-bold"
-          onClick={signOut}
-        >
-          Log Out
-        </div>
-      )} */}
     </div>
     </DropDown>
   );

@@ -36,6 +36,11 @@ export interface AnswersDataType {
   answer_text: string;
 }
 
+export interface UserInterviewInfoType{
+  question: string | null;
+  answer: string | null;
+}
+
 export interface UserInterviewsDataType {
   domain_id: number | null;
   end_time: string | null;

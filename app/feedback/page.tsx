@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useApp } from "@/context/AppProvider";
-import { getUserAllInterviewsInfo } from "@/lib/db";
+import { getUserAllInterviewsInfo,getUserInterviewQuesAndAns } from "@/lib/db";
 import { domainTypes, UserInterviewsDataType } from "@/interfaces";
 import {
   Card,
@@ -46,15 +46,17 @@ function FeedbackPage() {
     domainValue: domainTypes
   ) => {
     try {
-      console.log(`Generating report for interview ${interviewId}`);
 
+      console.log(`Generating report for interview ${interviewId}`);
+       const userInterviewSpecificQuestionAnswer =
+      await getUserInterviewQuesAndAns(currentUserId,interviewId);
       const res = await toast.promise(
         fetch(`/api/evaluate-interview`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             domainValue,
-            interviewId,
+            userInterviewSpecificQuestionAnswer,
           }),
         }),
         {

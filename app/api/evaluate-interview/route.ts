@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CohereClient, CohereTimeoutError, CohereError } from "cohere-ai";
-import { getUserInterviewQuesAndAns } from "@/lib/db";
-import { domainTypes } from "@/interfaces";
+import { CohereClient } from "cohere-ai";
+import { domainTypes, UserInterviewInfoType } from "@/interfaces";
 
 const API_KEY = process.env.TRIAL_KEY;
 
 interface RequestBodyType {
   domainValue: domainTypes;
-  interviewId: number;
+  userInterviewSpecificQuestionAnswer: UserInterviewInfoType[];
 }
 
 export async function POST(req: NextRequest) {
@@ -20,10 +19,10 @@ export async function POST(req: NextRequest) {
   });
 
   try {
-    const { domainValue, interviewId }: RequestBodyType = await req.json();
-    const userInterviewSpecificQuestionAnswer =
-      await getUserInterviewQuesAndAns(interviewId);
-    console.log(`User Ques and Answers`, userInterviewSpecificQuestionAnswer);
+    const {
+      domainValue,
+      userInterviewSpecificQuestionAnswer,
+    }: RequestBodyType = await req.json();
 
     if (userInterviewSpecificQuestionAnswer.length == 0) {
       return NextResponse.json(
