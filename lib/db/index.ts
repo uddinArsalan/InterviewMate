@@ -203,17 +203,27 @@ export async function getUserInterviewAnswers(interviewId: number) {
 export async function getUserInterviewQuesAndAns(interviewId: number) {
   const { data, error } = await supabase
     .from("questions")
-    .select(`question_text, answers (answer_text)`)
+    .select(`
+      question_id, 
+      question_text, 
+      answers (answer_text, question_id)
+    `)
     .eq("interview_id", interviewId);
-  if (error) throw error;
-  console.log("Error ", error, "Data", data);
-  return (
-    data?.map((item) => ({
-      question: item.question_text,
-      answer: item.answers[0]?.answer_text || "",
-    })) || []
-  );
+
+  if (error) {
+    console.error("Error", error);
+    throw error;
+  }
+
+  const result = data?.map((item) => ({
+    question: item.question_text,
+    answer: item.answers.length > 0 ? item.answers[0].answer_text : "", 
+  })) || [];
+
+  console.log("Fetched data:", result);
+  return result;
 }
+
 
 export const getUserAllInterviewsInfo = async (userId: string | undefined) => {
   if (!userId) return null;
