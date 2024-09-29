@@ -214,7 +214,7 @@ export async function getUserInterviewQuesAndAns(interviewId: number) {
     console.error("Error", error);
     throw error;
   }
-
+consoel.log("Ques and Answer ", data)
   const result = data?.map((item) => ({
     question: item.question_text,
     answer: item.answers.length > 0 ? item.answers[0].answer_text : "", 
