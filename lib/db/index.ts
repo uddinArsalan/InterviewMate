@@ -153,7 +153,7 @@ export async function storeUserAnswers(
   try {
     const { data, error } = await supabase.from("answers").insert([
       {
-        user_id : userId,
+        user_id: userId,
         interview_id: interviewId,
         question_id: questionId,
         answer_text: asnswerText,
@@ -203,27 +203,29 @@ export async function getUserInterviewAnswers(interviewId: number) {
 export async function getUserInterviewQuesAndAns(interviewId: number) {
   const { data, error } = await supabase
     .from("questions")
-    .select(`
+    .select(
+      `
       question_id, 
       question_text, 
       answers (answer_text, question_id)
-    `)
+    `
+    )
     .eq("interview_id", interviewId);
 
   if (error) {
     console.error("Error", error);
     throw error;
   }
-consoel.log("Ques and Answer ", data)
-  const result = data?.map((item) => ({
-    question: item.question_text,
-    answer: item.answers.length > 0 ? item.answers[0].answer_text : "", 
-  })) || [];
+  console.log("Ques and Answer ", data);
+  const result =
+    data?.map((item) => ({
+      question: item.question_text,
+      answer: item.answers.length > 0 ? item.answers[0].answer_text : "",
+    })) || [];
 
   console.log("Fetched data:", result);
   return result;
 }
-
 
 export const getUserAllInterviewsInfo = async (userId: string | undefined) => {
   if (!userId) return null;
