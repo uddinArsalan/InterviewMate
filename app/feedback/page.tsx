@@ -69,7 +69,7 @@ function FeedbackPage() {
         throw new Error(message || "Failed to generate report");
       }
 
-      const data = await res.json();
+      const {data} = await res.json();
       const {report} = data;
       console.log(report);
       return report;

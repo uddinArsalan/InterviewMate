@@ -51,8 +51,8 @@ export const useInterviewAudio = () => {
           throw new Error("Failed to generate questions");
         }
 
-        const data = await res.json();
-        const { question }: {question : string} = data;
+        const { data } = await res.json();
+        const { question }: { question: string } = data;
         return question;
       } catch (error) {
         console.error("Error in generateQuestions (useCallback):", error);

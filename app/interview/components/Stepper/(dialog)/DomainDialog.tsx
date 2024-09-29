@@ -64,7 +64,7 @@ const DomainDialog = () => {
         throw new Error("Failed to generate questions");
       }
   
-      const data = await res.json();
+      const {data} = await res.json();
       const { question, questionNumber }: QuestionData = data;
       console.log(question, questionNumber);
       return question;
