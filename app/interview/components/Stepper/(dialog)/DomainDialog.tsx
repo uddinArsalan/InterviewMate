@@ -85,6 +85,10 @@ const DomainDialog = () => {
           interviewId,
           question
         );
+        if(questionId == -1){
+          toast.error("User is not signup")
+            return;
+        }
         updateQuestionIdArray(questionId);
         toast.success("Questions generated and inserted successfully");
         setStep((prev) => ({ ...prev, isDomainSelected: true }));

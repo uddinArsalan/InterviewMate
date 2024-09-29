@@ -82,7 +82,7 @@ export const useInterviewAudio = () => {
           return;
         }
 
-        await storeUserAnswers(interviewSessionId, questionId, userAnswer);
+        await storeUserAnswers(currentUserId,interviewSessionId, questionId, userAnswer);
 
         const nextQuestion = await generateQuestions(
           interviewSessionId,
@@ -96,6 +96,10 @@ export const useInterviewAudio = () => {
             interviewSessionId,
             nextQuestion
           );
+          if(nextQuestionId == -1){ 
+            toast.error("User is not signup")
+            return;
+          };
           updateQuestionIdArray(nextQuestionId);
           setCurrentQuestionNumber((prev) => prev + 1);
 

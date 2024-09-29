@@ -1,10 +1,10 @@
-import { domainTypes,UserInterviewsDataType } from "@/interfaces";
+import { domainTypes, UserInterviewsDataType } from "@/interfaces";
 import { createBrowserClient } from "@supabase/ssr";
 import { QueryData } from "@supabase/supabase-js";
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 import { formatDate } from "@/utils";
-import {Database} from "../../interfaces/supabase"
+import { Database } from "../../interfaces/supabase";
 
 const supabase = createBrowserClient<Database>(SUPABASE_URL, SUPABASE_KEY);
 
@@ -21,7 +21,7 @@ export async function getCurrentUser() {
   // );
   // if (userIdError) throw userIdError;
   // await supabase.rpc("set_app_user_id", { p_user_id: userId });
-  return { user, userId : user.id };
+  return { user, userId: user.id };
 }
 
 export async function getExistingUser(userId: string) {
@@ -89,6 +89,7 @@ export async function storeUserQuestions(
   try {
     if (!userId) {
       console.log("UserId not defined");
+      return -1;
     }
     const { data, error } = await supabase
       .from("questions")
@@ -121,7 +122,7 @@ export async function startInterviewSession(
       user_id: userId,
       domain_id: domainId,
       start_time: formatDate(new Date()),
-      end_time : null
+      end_time: null,
     };
 
     const { data, error: interviewError } = await supabase
@@ -140,13 +141,19 @@ export async function startInterviewSession(
 }
 
 export async function storeUserAnswers(
+  userId: string | undefined,
   interviewId: number,
   questionId: number,
   asnswerText: string
 ) {
+  if (!userId) {
+    console.log("UserId not defined");
+    return;
+  }
   try {
     const { data, error } = await supabase.from("answers").insert([
       {
+        user_id : userId,
         interview_id: interviewId,
         question_id: questionId,
         answer_text: asnswerText,
@@ -168,7 +175,7 @@ export async function stopInterviewSession(interviewId: number) {
       .from("interviews")
       .update({ end_time: formatDate(new Date()) })
       .eq("id", interviewId);
-    console.log("Interview Session Completed ", data);
+    // console.log("Interview Session Completed ", data);
     if (error) throw error;
   } catch (error) {
     console.log("Error updating end time", error);
@@ -208,15 +215,15 @@ export async function getUserInterviewQuesAndAns(interviewId: number) {
   );
 }
 
-export const getUserAllInterviewsInfo = async (userId : string | undefined) =>{
-  if(!userId) return null;
+export const getUserAllInterviewsInfo = async (userId: string | undefined) => {
+  if (!userId) return null;
   const interviewsDataQuery = supabase
-  .from('interviews')
-  .select("*")
-  .eq('user_id', userId);
-  type UserInterviewsType = QueryData<typeof interviewsDataQuery>
+    .from("interviews")
+    .select("*")
+    .eq("user_id", userId);
+  type UserInterviewsType = QueryData<typeof interviewsDataQuery>;
   let { data, error } = await interviewsDataQuery;
-  if(error) throw error
-  const interviews : UserInterviewsType | null = data
-  return interviews
-}
+  if (error) throw error;
+  const interviews: UserInterviewsType | null = data;
+  return interviews;
+};
