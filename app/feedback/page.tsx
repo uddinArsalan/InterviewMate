@@ -1,7 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useApp } from "@/context/AppProvider";
-import { getUserAllInterviewsInfo,getUserInterviewQuesAndAns } from "@/lib/db";
+import {
+  getUserAllInterviewsInfo,
+  getUserInterviewQuesAndAns,
+  storeUserInterviewReport,
+  updateInterviewReportStatus,
+} from "@/lib/db";
 import { domainTypes, UserInterviewsDataType } from "@/interfaces";
 import {
   Card,
@@ -15,9 +20,12 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Clock, FileText, BarChart2 } from "lucide-react";
 import { DomainMap } from "@/data/DomainMapping";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 function FeedbackPage() {
   const { currentUserId, startLoader, completeLoader } = useApp();
+  const [load,setLoad] = useState<boolean>(false);
+  const router = useRouter();
   const [userInterviews, setUserInterviews] = useState<
     UserInterviewsDataType[] | null
   >(null);
@@ -39,17 +47,16 @@ function FeedbackPage() {
       }
     };
     getUserInterviewsInfo();
-  }, [currentUserId]);
+  }, [currentUserId,load]);
 
   const handleGenerateReport = async (
     interviewId: number,
     domainValue: domainTypes
   ) => {
     try {
-
       console.log(`Generating report for interview ${interviewId}`);
-       const userInterviewSpecificQuestionAnswer =
-      await getUserInterviewQuesAndAns(currentUserId,interviewId);
+      const userInterviewSpecificQuestionAnswer =
+        await getUserInterviewQuesAndAns(currentUserId, interviewId);
       const res = await toast.promise(
         fetch(`/api/evaluate-interview`, {
           method: "POST",
@@ -71,9 +78,14 @@ function FeedbackPage() {
         throw new Error(message || "Failed to generate report");
       }
 
-      const {data} = await res.json();
-      const {report} = data;
+      const { data } = await res.json();
+      const { report } = data;
       console.log(report);
+      if(report){ 
+        await storeUserInterviewReport(currentUserId,interviewId,report);
+        await updateInterviewReportStatus(currentUserId,interviewId);
+        setLoad(true);
+      }
       return report;
     } catch (error: any) {
       console.error("Error:", error.message);
@@ -81,6 +93,10 @@ function FeedbackPage() {
       throw error;
     }
   };
+
+  function handleViewReport(interviewId: number): void {
+    router.push(`feedback/${interviewId}`)
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 p-8">
@@ -159,19 +175,28 @@ function FeedbackPage() {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button
-                    onClick={() =>
-                      handleGenerateReport(
-                        userInterview.id,
-                        DomainMap[
-                          userInterview.domain_id as keyof typeof DomainMap
-                        ]
-                      )
-                    }
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    Generate Report
-                  </Button>
+                  {userInterview.report_status ? (
+                    <Button
+                      onClick={() => handleViewReport(userInterview.id)}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white"
+                    >
+                      View Report
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() =>
+                        handleGenerateReport(
+                          userInterview.id,
+                          DomainMap[
+                            userInterview.domain_id as keyof typeof DomainMap
+                          ]
+                        )
+                      }
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                    >
+                      Generate Report
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             ))}

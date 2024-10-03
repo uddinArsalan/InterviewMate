@@ -1,46 +1,58 @@
-import { domainTypes, UserInterviewInfoType, UserInterviewsDataType } from "@/interfaces";
+import {
+  UserInterviewInfoType,
+  ReportJSONFormat
+} from "@/interfaces";
 import { createBrowserClient } from "@supabase/ssr";
-import { QueryData,User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-import { formatDate } from "@/utils";
-import { Database } from "../../interfaces/supabase";
+import { Database, Json } from "../../interfaces/supabase";
 
 const supabase = createBrowserClient<Database>(SUPABASE_URL, SUPABASE_KEY);
 
-export async function getCurrentUser(): Promise<{ user: User | null; userId: string | undefined }> {
-  const { data: { user }, error } = await supabase.auth.getUser();
+export async function getCurrentUser(): Promise<{
+  user: User | null;
+  userId: string | undefined;
+}> {
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
   if (error) throw error;
   return { user, userId: user?.id };
 }
 
-export async function getExistingUser(userId: string): Promise<Database['public']['Tables']['users']['Row'] | null> {
+export async function getExistingUser(
+  userId: string
+): Promise<Database["public"]["Tables"]["users"]["Row"] | null> {
   const { data, error } = await supabase
-    .from('users')
+    .from("users")
     .select()
-    .eq('id', userId)
+    .eq("id", userId)
     .single();
 
-  if (error && error.code !== 'PGRST116') throw error;
+  if (error && error.code !== "PGRST116") throw error;
   return data;
 }
 
 export async function getDomainId(domainName: string): Promise<number> {
   const { data, error } = await supabase
-    .from('domains')
-    .select('domain_id')
-    .eq('domain_name', domainName)
+    .from("domains")
+    .select("domain_id")
+    .eq("domain_name", domainName)
     .single();
 
   if (error) throw error;
   return data.domain_id;
 }
 
-export async function getUserQuestions(questionId: number): Promise<string | null> {
+export async function getUserQuestions(
+  questionId: number
+): Promise<string | null> {
   const { data, error } = await supabase
-    .from('questions')
-    .select('question_text')
-    .eq('question_id', questionId)
+    .from("questions")
+    .select("question_text")
+    .eq("question_id", questionId)
     .single();
 
   if (error) throw error;
@@ -52,10 +64,10 @@ export async function storeUserQuestions(
   interviewId: number,
   question: string
 ): Promise<number> {
-  if (!userId) throw new Error('UserId not defined');
+  if (!userId) throw new Error("UserId not defined");
 
   const { data, error } = await supabase
-    .from('questions')
+    .from("questions")
     .insert({
       question_text: question,
       interview_id: interviewId,
@@ -76,7 +88,7 @@ export async function startInterviewSession(
   const domainId = await getDomainId(domainName);
 
   const { data, error } = await supabase
-    .from('interviews')
+    .from("interviews")
     .insert({
       user_id: userId,
       domain_id: domainId,
@@ -95,26 +107,24 @@ export async function storeUserAnswers(
   questionId: number,
   answerText: string
 ): Promise<void> {
-  if (!userId) throw new Error('UserId not defined');
+  if (!userId) throw new Error("UserId not defined");
 
-  const { error } = await supabase
-    .from('answers')
-    .insert({
-      user_id: userId,
-      interview_id: interviewId,
-      question_id: questionId,
-      answer_text: answerText,
-      timestamp: new Date().toISOString(),
-    });
+  const { error } = await supabase.from("answers").insert({
+    user_id: userId,
+    interview_id: interviewId,
+    question_id: questionId,
+    answer_text: answerText,
+    timestamp: new Date().toISOString(),
+  });
 
   if (error) throw error;
 }
 
 export async function stopInterviewSession(interviewId: number): Promise<void> {
   const { error } = await supabase
-    .from('interviews')
+    .from("interviews")
     .update({ end_time: new Date().toISOString() })
-    .eq('id', interviewId);
+    .eq("id", interviewId);
 
   if (error) throw error;
 }
@@ -143,35 +153,88 @@ export async function getUserInterviewQuesAndAns(
   userId: string | undefined,
   interviewId: number
 ): Promise<UserInterviewInfoType[]> {
-  if (!userId) throw new Error('User not signed up');
+  if (!userId) throw new Error("User not signed up");
 
   const { data, error } = await supabase
-    .from('questions')
-    .select(`
+    .from("questions")
+    .select(
+      `
       question_id,
       question_text,
       answers (answer_text)
-    `)
-    .eq('interview_id', interviewId)
-    .eq('user_id', userId)
-    .order('question_id');
+    `
+    )
+    .eq("interview_id", interviewId)
+    .eq("user_id", userId)
+    .order("question_id");
 
   if (error) throw error;
 
-  return data?.map((item) => ({
-    question: item.question_text ?? '',
-    answer: item.answers && item.answers.length > 0 ? item.answers[0].answer_text ?? '' : '',
-  })) || [];
+  return (
+    data?.map((item) => ({
+      question: item.question_text ?? "",
+      answer:
+        item.answers && item.answers.length > 0
+          ? item.answers[0].answer_text ?? ""
+          : "",
+    })) || []
+  );
 }
 
-export async function getUserAllInterviewsInfo(userId: string | undefined): Promise<Database['public']['Tables']['interviews']['Row'][] | null> {
+export async function getUserAllInterviewsInfo(
+  userId: string | undefined
+): Promise<Database["public"]["Tables"]["interviews"]["Row"][] | null> {
   if (!userId) return null;
 
   const { data, error } = await supabase
-    .from('interviews')
-    .select('*')
-    .eq('user_id', userId);
+    .from("interviews")
+    .select("*")
+    .eq("user_id", userId);
 
   if (error) throw error;
   return data;
+}
+
+export async function getUserInterviewReport(
+  userId: string | undefined,
+  interviewId: number
+) {
+  if (!userId) return null;
+  const { data, error } = await supabase
+    .from("results")
+    .select("report")
+    .eq("user_id", userId)
+    .eq("interview_id", interviewId)
+    .single();
+    // console.log(data?.report);
+  return data?.report;
+}
+
+export async function storeUserInterviewReport(
+  userId: string | undefined,
+  interviewId: number,
+  report: ReportJSONFormat
+): Promise<void> {
+  if (!userId) throw new Error("UserId not defined");
+  const { error } = await supabase.from("results").insert({
+    interview_id: interviewId,
+    report: report,
+    created_at: new Date().toISOString(),
+    user_id: userId,
+  });
+
+  if (error) throw error;
+}
+
+export async function updateInterviewReportStatus(
+  userId: string | undefined,
+  interviewId: number
+) {
+  if (!userId) throw new Error("UserId not defined");
+  const { error } = await supabase
+    .from("interviews")
+    .update({ report_status: true })
+    .eq("id", interviewId)
+    .eq("user_id", userId);
+  if (error) throw error;
 }

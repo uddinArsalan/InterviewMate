@@ -47,4 +47,22 @@ export interface UserInterviewsDataType {
   id: number;
   start_time: string | null;
   user_id: string | null;
+  report_status : boolean;
+}
+
+export type ReportJSONFormat = {
+  domain: domainTypes,
+  overallQuality: string,
+  keyInsights: string[],
+  strengths: string[],
+  areasForImprovement: string[],
+  notablePatterns: string[],
+  questionEvaluations: 
+    {
+      questionNumber: number,
+      question: string,
+      answer: string | "No Answer Provided",
+      score: number,
+      feedback: string
+    }[]
 }

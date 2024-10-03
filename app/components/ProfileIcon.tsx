@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const DropDown : React.FC<React.PropsWithChildren> = ({children} ) => {
-   const { logOut } = useApp();
+   const { logOut,currentUser } = useApp();
 
   return (
     <DropdownMenu>
@@ -26,15 +26,15 @@ const DropDown : React.FC<React.PropsWithChildren> = ({children} ) => {
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
         <DropdownMenuItem>
-          Profile
-          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          {currentUser ? currentUser?.user_metadata?.full_name : "User"}
+          {/* <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut> */}
         </DropdownMenuItem>
       </DropdownMenuGroup>
-      <DropdownMenuItem>Support</DropdownMenuItem>
+      <DropdownMenuItem ><a href="mailto:uddinarsalan91@gmail.com">Support</a></DropdownMenuItem>
       <DropdownMenuSeparator />
       <DropdownMenuItem onClick={logOut}>
         Log out
-        <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        {/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>

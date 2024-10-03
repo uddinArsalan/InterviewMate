@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CohereClient } from "cohere-ai";
-import { domainTypes, UserInterviewInfoType } from "@/interfaces";
+import { domainTypes, ReportJSONFormat, UserInterviewInfoType } from "@/interfaces";
 
 const API_KEY = process.env.TRIAL_KEY;
 
@@ -24,33 +24,30 @@ export async function POST(req: NextRequest) {
       userInterviewSpecificQuestionAnswer,
     }: RequestBodyType = await req.json();
 
-    if (userInterviewSpecificQuestionAnswer.length == 0) {
+    if (userInterviewSpecificQuestionAnswer.length === 0) {
       return NextResponse.json(
         {
           status: "error",
-          message: "No User Questions and Answers available for this interview",
+          message: "No questions and answers available for this interview",
         },
         { status: 404 }
       );
     }
 
-    const prompt = `Based on the following user interview for the ${domainValue} domain, generate a comprehensive report:
+    const prompt = `Based on the following user interview for the ${domainValue} domain, generate a comprehensive report in JSON format:
 
 ${userInterviewSpecificQuestionAnswer
   .map(
     (qa, index) => `
 Question ${index + 1}: ${qa.question}
-Answer ${index + 1}: "${qa.answer}"
+Answer ${index + 1}: "${qa.answer || "No answer provided"}"
 
 Evaluate the answer based on the following criteria:
 1. Relevance to the question
-2. Completeness of the response
+2. Completeness of the response ${qa.answer ? "" : "(Note: No response provided)"}
 3. Accuracy of information provided (considering the ${domainValue} domain)
 
 Provide a score from 0 to 100 and brief feedback.
-
-Score:
-Feedback:
 `
   )
   .join("\n")}
@@ -62,14 +59,33 @@ Now, synthesize all the information above into a cohesive report that summarizes
 4. Areas where the interviewee could improve their ${domainValue} skills or knowledge
 5. Any notable patterns or themes across the responses specific to ${domainValue}
 
-Report:
+Provide the report in the following JSON format:
+{
+  "domain": "${domainValue}",
+  "overallQuality": "Brief description of overall quality",
+  "keyInsights": ["Insight 1", "Insight 2", ...],
+  "strengths": ["Strength 1", "Strength 2", ...],
+  "areasForImprovement": ["Area 1", "Area 2", ...],
+  "notablePatterns": ["Pattern 1", "Pattern 2", ...],
+  "questionEvaluations": [
+    {
+      "questionNumber": 1,
+      "question": "Question text",
+      "answer": "Answer text or 'No answer provided'",
+      "score": 85,
+      "feedback": "Brief feedback"
+    },
+    ...
+  ]
+}
 `;
 
     const response = await cohere.chat({
       message: prompt,
+      responseFormat : {type : "json_object"}
     });
 
-    const result = response.text.trim();
+    const result = response.text;
     return NextResponse.json(
       {
         status: "success",

@@ -103,6 +103,7 @@ export type Database = {
           domain_id: number | null
           end_time: string | null
           id: number
+          report_status: boolean
           start_time: string | null
           user_id: string | null
         }
@@ -110,6 +111,7 @@ export type Database = {
           domain_id?: number | null
           end_time?: string | null
           id?: number
+          report_status?: boolean
           start_time?: string | null
           user_id?: string | null
         }
@@ -117,6 +119,7 @@ export type Database = {
           domain_id?: number | null
           end_time?: string | null
           id?: number
+          report_status?: boolean
           start_time?: string | null
           user_id?: string | null
         }
@@ -171,25 +174,25 @@ export type Database = {
       }
       results: {
         Row: {
-          feedback: string | null
+          created_at: string | null
           id: number
           interview_id: number | null
-          score: number | null
-          timestamp: string | null
+          report: Json
+          user_id: string | null
         }
         Insert: {
-          feedback?: string | null
+          created_at?: string | null
           id?: number
           interview_id?: number | null
-          score?: number | null
-          timestamp?: string | null
+          report: Json
+          user_id?: string | null
         }
         Update: {
-          feedback?: string | null
+          created_at?: string | null
           id?: number
           interview_id?: number | null
-          score?: number | null
-          timestamp?: string | null
+          report?: Json
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -197,6 +200,13 @@ export type Database = {
             columns: ["interview_id"]
             isOneToOne: false
             referencedRelation: "interviews"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "results_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
