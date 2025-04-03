@@ -32,6 +32,7 @@ function startSpeechRecognition(): Promise<string> {
           final_transcript += event.results[i][0].transcript + " ";
           console.log("Transcript updated:", final_transcript);
       }
+      }
       console.log("Recognized Speech (final):", final_transcript);
       // console.log("Recognized Speech (interim):", interim_transcript);
     };
