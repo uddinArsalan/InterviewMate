@@ -10,7 +10,7 @@ function startSpeechRecognition(): Promise<string> {
   
     let final_transcript = "";
   
-    recognition.continuous = true; 
+    recognition.continuous = false; 
     recognition.interimResults = true;
     recognition.lang = "en-IN"
   
@@ -21,19 +21,19 @@ function startSpeechRecognition(): Promise<string> {
     recognition.onaudioend = () => {
       console.log("Audio capturing ended");
     };
+    recognition.onspeechend = () => {
+      recognition.stop(); 
+    };
   
     recognition.onresult = (event: SpeechRecognitionEvent) => {
-      let interim_transcript = "";
+      // let interim_transcript = "";
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
           final_transcript += event.results[i][0].transcript + " ";
           console.log("Transcript updated:", final_transcript);
-        } else {
-          interim_transcript += event.results[i][0].transcript;
-        }
       }
       console.log("Recognized Speech (final):", final_transcript);
-      console.log("Recognized Speech (interim):", interim_transcript);
+      // console.log("Recognized Speech (interim):", interim_transcript);
     };
   
     recognition.onend = () => {

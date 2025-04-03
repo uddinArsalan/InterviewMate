@@ -34,12 +34,13 @@ export async function isRecordingActive(): Promise<boolean> {
 }
 
 async function startInterviewAudio(question: string, voice: string) {
+  const speech = new SpeechProducer(voice);
   if (await isRecordingActive()) {
     throw new Error(
       "A recording is currently active. Please stop the recording before starting the interview."
     );
   }
-  const speech = new SpeechProducer(voice);
+
   await speech.speakThis(question);
   const userAnswer = await startSpeechRecognition();
   return userAnswer;
