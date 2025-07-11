@@ -20,7 +20,7 @@ export const useInterviewAudio = () => {
   } = useApp();
 
   const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(1);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  // const [isSpeaking, setIsSpeaking] = useState(false);
 
   const generateQuestions = useCallback(
     async (
@@ -76,14 +76,11 @@ export const useInterviewAudio = () => {
           console.error("No question available");
           return;
         }
-        setIsSpeaking(true);
         const userAnswer = await startInterviewAudio(question, characterVoice);
-        setIsSpeaking(false);
         if (!userAnswer) {
           console.error("No user answer received");
           return;
         }
-
         await storeUserAnswers(currentUserId,interviewSessionId, questionId, userAnswer);
 
         const nextQuestion = await generateQuestions(

@@ -13,7 +13,7 @@ export const DomainMap : DomainMapType = {
     7 : "Cloud Computing",
     8 : "Cybersecurity",
     9 : "UI/UX Design",
-    10 : "Blockchain Development",
-    11 : "Full Stack Development",
-    12 : "Quality Assurance",
+    10 : "Full Stack Development",
+    11 : "Quality Assurance",
+    12 : "Blockchain Development",
 }

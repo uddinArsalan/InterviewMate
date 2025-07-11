@@ -1,12 +1,14 @@
 import {
   UserInterviewInfoType,
-  ReportJSONFormat
+  ReportJSONFormat,
+  domainTypes
 } from "@/interfaces";
 import { createBrowserClient } from "@supabase/ssr";
 import { User } from "@supabase/supabase-js";
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 import { Database, Json } from "../../interfaces/supabase";
+import { DomainMap } from "@/data/DomainMapping";
 
 const supabase = createBrowserClient<Database>(SUPABASE_URL, SUPABASE_KEY);
 
@@ -35,7 +37,7 @@ export async function getExistingUser(
   return data;
 }
 
-export async function getDomainId(domainName: string): Promise<number> {
+export async function getDomainId(domainName: domainTypes): Promise<number> {
   const { data, error } = await supabase
     .from("domains")
     .select("domain_id")
@@ -83,9 +85,10 @@ export async function storeUserQuestions(
 
 export async function startInterviewSession(
   userId: string,
-  domainName: string
+  domainName: domainTypes
 ): Promise<number> {
   const domainId = await getDomainId(domainName);
+  // const domainId = DomainMap[domainName]
 
   const { data, error } = await supabase
     .from("interviews")

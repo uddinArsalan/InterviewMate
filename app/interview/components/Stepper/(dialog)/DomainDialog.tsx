@@ -119,15 +119,15 @@ const DomainDialog = () => {
       }
       if(interviewSessionId === 0){
         interviewId = await startInterviewSession(currentUserId, domainValue);
-        console.log(interviewId);
-        console.log(`Interview started with ID: ${interviewId}`);
+        // console.log(interviewId);
+        // console.log(`Interview started with ID: ${interviewId}`);
         if(interviewId){
           updateInterviewSessionId(interviewId);
           await handleQuestion(interviewId);
         } 
       }
       else {
-        console.log(`Interview started with ID: ${interviewSessionId}`);
+        // console.log(`Interview started with ID: ${interviewSessionId}`);
         await handleQuestion(interviewSessionId);
       } 
     } catch (error) {

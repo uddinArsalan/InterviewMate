@@ -1,12 +1,14 @@
 import { SpeechProducer } from "@/utils/Speech";
-import { startSpeechRecognition } from "./SpeechRecognition";
+import { isRecognizing, startSpeechRecognition, stopSpeechRecognition } from "./SpeechRecognition";
 
 export async function isRecordingActive(): Promise<boolean> {
   try {
     const devices = await navigator.mediaDevices.enumerateDevices();
+    console.log(devices)
     const audioInputDevices = devices.filter(
       (device) => device.kind === "audioinput"
     );
+    console.log(audioInputDevices)
 
     for (const device of audioInputDevices) {
       try {
@@ -34,16 +36,15 @@ export async function isRecordingActive(): Promise<boolean> {
 }
 
 async function startInterviewAudio(question: string, voice: string) {
-  const speech = new SpeechProducer(voice);
-  if (await isRecordingActive()) {
-    throw new Error(
-      "A recording is currently active. Please stop the recording before starting the interview."
-    );
+  if (isRecognizing) {
+    stopSpeechRecognition();
+    await new Promise(res => setTimeout(res, 500)); 
   }
 
+  const speech = new SpeechProducer(voice);
   await speech.speakThis(question);
-  const userAnswer = await startSpeechRecognition();
-  return userAnswer;
+  return await startSpeechRecognition();
 }
+
 
 export { startInterviewAudio };

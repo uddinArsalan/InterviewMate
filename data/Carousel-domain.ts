@@ -52,19 +52,22 @@ export const CarouselData : CarouselDataType[] = [
         domain: "UI/UX Design",
         image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?fit=crop&w=600&h=300&q=80"
     },
+    
     {
         id: 10,
-        domain: "Blockchain Development",
-        image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?fit=crop&w=600&h=300&q=80"
-    },
-    {
-        id: 11,
         domain: "Full Stack Development",
         image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?fit=crop&w=600&h=300&q=80"
     },
     {
-        id: 12,
+        id: 11,
         domain: "Quality Assurance",
         image: "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?fit=crop&w=600&h=300&q=80"
-    }
+    },
+    {
+        id: 12,
+        domain: "Blockchain Development",
+        image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?fit=crop&w=600&h=300&q=80"
+    },
+
+    
 ];

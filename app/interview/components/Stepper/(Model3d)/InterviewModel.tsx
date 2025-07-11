@@ -15,7 +15,7 @@ const InterviewModel = () => {
   // const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const { initInterviewAudio } = useInterviewAudio();
-  const { startLoader, completeLoader, questionIds } = useApp();
+  const { questionIds } = useApp();
 
   // useEffect(() => {
   //   const loaderId = startLoader();
