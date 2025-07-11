@@ -17,6 +17,8 @@ export const useInterviewAudio = () => {
     domainValue,
     currentUserId,
     updateQuestionIdArray,
+    isAudioOn,
+    toggleAudio,
   } = useApp();
 
   const [currentQuestionNumber, setCurrentQuestionNumber] = useState<number>(1);
@@ -76,7 +78,7 @@ export const useInterviewAudio = () => {
           console.error("No question available");
           return;
         }
-        const userAnswer = await startInterviewAudio(question, characterVoice);
+        const userAnswer = await startInterviewAudio(question, characterVoice,isAudioOn, toggleAudio);
         if (!userAnswer) {
           console.error("No user answer received");
           return;

@@ -29,7 +29,6 @@ const InterviewPanel = () => {
   const handleStartInterview = () => {
     setStep(prev => ({...prev,isInterviewStarted : !prev.isInterviewStarted}));
     toggleDomainSelectionDialogBox();
-
   }
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">

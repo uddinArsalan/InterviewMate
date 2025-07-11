@@ -1,7 +1,9 @@
+import { useApp } from "@/context/AppProvider";
 let recognitionInstance: SpeechRecognition | null = null;
 let isRecognizing = false;
 
 function startSpeechRecognition(): Promise<string> {
+  const {toggleAudio,toggleVideo} = useApp();
   return new Promise((resolve, reject) => {
     if (
       typeof window === "undefined" ||
@@ -60,4 +62,8 @@ function stopSpeechRecognition() {
   }
 }
 
-export { startSpeechRecognition, stopSpeechRecognition, isRecognizing };
+function getIsRecognizing() {
+  return isRecognizing;
+}
+
+export { startSpeechRecognition, stopSpeechRecognition, getIsRecognizing };
