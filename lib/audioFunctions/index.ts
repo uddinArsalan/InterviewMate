@@ -16,13 +16,12 @@ async function startInterviewAudio(
     stopSpeechRecognition();
     await new Promise((res) => setTimeout(res, 300));
   }
-   if (!isAudioOn) {
-    toast.error("Audio is off. Please enable audio to continue the interview.");
-    return;
-  }
   const speech = new SpeechProducer(voice);
   await speech.speakThis(question);
- 
+  if (!isAudioOn && toggleAudio) {
+    toast.error("Audio is off. Please enable audio to continue the interview.");
+    toggleAudio();
+  }
   return await startSpeechRecognition();
 }
 

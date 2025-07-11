@@ -1,11 +1,13 @@
-import React from "react";
+import {useMemo} from "react";
 import { StopIcon, ForwardIcon } from "@heroicons/react/24/solid";
 import { stopInterviewSession } from "@/lib/db";
 import { useApp } from "@/context/AppProvider";
 import { useModel } from "@/context/ModelContextProvider";
+import { useInterviewAudio } from "@/hooks/useInterviewAudio";
 
 const InterviewControls = () => {
   const { interviewSessionId, startLoader, completeLoader } = useApp();
+  const {currentQuestionNumber} = useInterviewAudio();
   const { setStep } = useModel();
   const stopInterview = async () => {
     const loaderId = startLoader();
@@ -24,6 +26,7 @@ const InterviewControls = () => {
       completeLoader(loaderId);
     }
   };
+  const progressPecentage = useMemo(() => (currentQuestionNumber / 10) * 100, [currentQuestionNumber])
   return (
     <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4">
       <div className="flex items-center justify-between">
@@ -45,7 +48,7 @@ const InterviewControls = () => {
       <div className="mt-4 bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
         <div
           className="bg-blue-600 h-2.5 rounded-full"
-          style={{ width: "45%" }}
+          style={{ width: `${progressPecentage}%` }}
         ></div>
       </div>
       {/* <div className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-right">
